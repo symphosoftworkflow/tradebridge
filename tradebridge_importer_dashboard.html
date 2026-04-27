@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tradebridge Digital — Importer BI Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+/* ── Design tokens ──────────────────────────────────── */
+:root {
+  --bg-page:    #eef2f7;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f1f5f9;
+  --bg-info:    #eff6ff;
+  --bg-success: #f0fdf4;
+  --bg-warning: #fffbeb;
+  --bg-danger:  #fef2f2;
+
+  --txt-primary:   #0f172a;
+  --txt-secondary: #64748b;
+  --txt-info:      #1d4ed8;
+  --txt-success:   #15803d;
+  --txt-warning:   #b45309;
+  --txt-danger:    #b91c1c;
+
+  --bdr-secondary: #e2e8f0;
+  --bdr-tertiary:  #f1f5f9;
+  --bdr-info:      #bfdbfe;
+  --bdr-success:   #bbf7d0;
+  --bdr-warning:   #fde68a;
+  --bdr-danger:    #fecaca;
+
+  --r-sm: 4px;
+  --r-md: 8px;
+  --r-lg: 14px;
+
+  --shadow-card:  0 1px 3px rgba(15,23,42,.06), 0 2px 10px rgba(15,23,42,.04);
+  --shadow-float: 0 12px 40px rgba(15,23,42,.18);
+}
+
+/* ── Reset ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  color: var(--txt-primary);
+  background: var(--bg-page);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+button, select { font-family: inherit; cursor: pointer; }
+
+/* ── Page header ────────────────────────────────────── */
+.ph {
+  background: linear-gradient(135deg, #0d1f3c 0%, #1a3560 65%, #1e4080 100%);
+  padding: 0 2rem;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 14px rgba(0,0,0,.28);
+}
+.ph-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .9rem 0;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 2px 8px rgba(59,130,246,.4);
+  flex-shrink: 0;
+}
+.brand-name { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -.02em; }
+.brand-sub  { font-size: 11px; color: rgba(255,255,255,.55); margin-top: 2px; }
+.ph-right   { display: flex; align-items: center; gap: 10px; }
+.h-pill {
+  font-size: 11px; font-weight: 500; padding: 5px 14px; border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.18);
+}
+.h-pill-demo { background: rgba(251,191,36,.15); color: #fbbf24; border-color: rgba(251,191,36,.3); }
+.h-pill-date { color: rgba(255,255,255,.65); background: rgba(255,255,255,.08); }
+
+/* ── Journey banner ─────────────────────────────────── */
+.jb { max-width: 1280px; margin: 1.5rem auto .25rem; padding: 0 2rem; }
+.jtrack {
+  display: flex; align-items: stretch;
+  border-radius: var(--r-lg); overflow: hidden;
+  border: 1px solid var(--bdr-secondary);
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-card);
+}
+.jstep {
+  flex: 1; padding: .85rem 1rem;
+  border-right: 1px solid var(--bdr-secondary);
+  font-size: 12px; position: relative;
+}
+.jstep:last-child { border-right: none; }
+.jstep.j-tb   { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-right-color: #bfdbfe; }
+.jstep.j-sh   { background: var(--bg-secondary); }
+.jstep.j-an   { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+.jlabel { font-weight: 700; margin-bottom: 3px; font-size: 12px; }
+.jstep.j-tb .jlabel { color: var(--txt-info); }
+.jstep.j-sh .jlabel { color: var(--txt-secondary); }
+.jstep.j-an .jlabel { color: var(--txt-success); }
+.jsub  { color: var(--txt-secondary); font-size: 11px; line-height: 1.4; }
+.jown  { display: inline-block; margin-top: 5px; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 999px; letter-spacing: .03em; }
+.own-tb { background: #dbeafe; color: #1e40af; }
+.own-sh { background: #f1f5f9; color: #475569; }
+.own-an { background: #dcfce7; color: #15803d; }
+.jarr {
+  position: absolute; right: -10px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px;
+  background: var(--bg-primary); border: 1px solid var(--bdr-secondary);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 9px; color: var(--txt-secondary); z-index: 1; font-weight: 700;
+}
+.jstep.j-tb .jarr { background: #dbeafe; border-color: #bfdbfe; color: #1d4ed8; }
+
+/* ── Page wrapper ───────────────────────────────────── */
+.pw { max-width: 1280px; margin: 0 auto; padding: 1rem 2rem 3rem; }
+
+/* ── Topbar ─────────────────────────────────────────── */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.25rem; padding: 1rem 1.5rem;
+  background: var(--bg-primary);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--bdr-secondary);
+}
+.logo { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.logobadge {
+  background: var(--bg-info); color: var(--txt-info);
+  font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px;
+  border: 1px solid var(--bdr-info);
+}
+.tcs-badge {
+  background: var(--bg-secondary); color: var(--txt-secondary);
+  font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 999px;
+  border: 1px solid var(--bdr-secondary);
+}
+.per-sel {
+  font-size: 12px; font-weight: 500;
+  background: var(--bg-secondary); color: var(--txt-primary);
+  border: 1px solid var(--bdr-secondary); border-radius: var(--r-md);
+  padding: 5px 10px; outline: none;
+}
+
+/* ── Tabs ───────────────────────────────────────────── */
+.tabs {
+  display: flex; gap: 6px; margin-bottom: 1.25rem;
+  background: var(--bg-primary); padding: .5rem;
+  border-radius: var(--r-lg); border: 1px solid var(--bdr-secondary);
+  box-shadow: var(--shadow-card);
+}
+.tab {
+  font-size: 12px; font-weight: 500; padding: 7px 18px;
+  border-radius: var(--r-md); border: 1px solid transparent;
+  background: transparent; color: var(--txt-secondary);
+  transition: all .15s ease; letter-spacing: .01em;
+}
+.tab:hover { background: var(--bg-secondary); color: var(--txt-primary); }
+.tab.active {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: #fff; border-color: transparent;
+  box-shadow: 0 2px 8px rgba(29,78,216,.3);
+}
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── Metrics ────────────────────────────────────────── */
+.metrics { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 1.25rem; }
+.metric {
+  background: var(--bg-primary); border-radius: var(--r-lg);
+  padding: 1.1rem 1.25rem; border: 1px solid var(--bdr-secondary);
+  box-shadow: var(--shadow-card); transition: box-shadow .2s;
+}
+.metric:hover { box-shadow: 0 4px 18px rgba(15,23,42,.1); }
+.metric-label { font-size: 10px; font-weight: 600; color: var(--txt-secondary); margin-bottom: 7px; letter-spacing: .06em; text-transform: uppercase; }
+.metric-val   { font-size: 28px; font-weight: 700; letter-spacing: -.03em; line-height: 1; }
+.metric-sub   { font-size: 11px; color: var(--txt-secondary); margin-top: 6px; font-weight: 500; }
+.metric-up { color: var(--txt-success); }
+.metric-dn { color: var(--txt-danger); }
+
+/* ── Layout grids ───────────────────────────────────── */
+.row2 { display: grid; grid-template-columns: 1.6fr 1fr; gap: 12px; margin-bottom: 1.25rem; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 1.25rem; }
+
+/* ── Card ───────────────────────────────────────────── */
+.card {
+  background: var(--bg-primary); border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-lg); padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-card);
+}
+.card-title { font-size: 10px; font-weight: 700; color: var(--txt-secondary); margin-bottom: 1rem; letter-spacing: .08em; text-transform: uppercase; }
+
+/* ── Tags ───────────────────────────────────────────── */
+.tag { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 999px; display: inline-block; letter-spacing: .01em; }
+.tag-green { background: var(--bg-success);  color: var(--txt-success);  border: 1px solid var(--bdr-success); }
+.tag-red   { background: var(--bg-danger);   color: var(--txt-danger);   border: 1px solid var(--bdr-danger); }
+.tag-warn  { background: var(--bg-warning);  color: var(--txt-warning);  border: 1px solid var(--bdr-warning); }
+.tag-info  { background: var(--bg-info);     color: var(--txt-info);     border: 1px solid var(--bdr-info); }
+.tag-gray  { background: var(--bg-secondary);color: var(--txt-secondary);border: 1px solid var(--bdr-secondary); }
+
+/* ── Shipment rows ──────────────────────────────────── */
+.ship-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--bdr-tertiary); font-size: 13px; }
+.ship-row:last-child { border-bottom: none; }
+.ship-id { font-weight: 600; min-width: 95px; font-family: 'SF Mono','Fira Code',monospace; font-size: 11.5px; }
+.ship-hs { color: var(--txt-secondary); font-size: 11px; min-width: 58px; }
+.ship-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+
+/* ── Progress ───────────────────────────────────────── */
+.progress-wrap { margin: .5rem 0; }
+.progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--txt-secondary); margin-bottom: 4px; font-weight: 500; }
+.progress-track { height: 8px; background: var(--bg-secondary); border-radius: 999px; overflow: hidden; }
+.progress-bar { height: 100%; border-radius: 999px; transition: width .5s ease; }
+.bar-blue  { background: linear-gradient(90deg,#3b82f6,#2563eb); }
+.bar-green { background: linear-gradient(90deg,#22c55e,#16a34a); }
+.bar-red   { background: linear-gradient(90deg,#f87171,#dc2626); }
+.bar-warn  { background: linear-gradient(90deg,#fbbf24,#d97706); }
+
+/* ── Insights ───────────────────────────────────────── */
+.insight-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--bdr-tertiary); font-size: 12px; }
+.insight-row:last-child { border-bottom: none; }
+.insight-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+.dot-green { background: var(--txt-success); box-shadow: 0 0 0 3px rgba(21,128,61,.14); }
+.dot-red   { background: var(--txt-danger);  box-shadow: 0 0 0 3px rgba(185,28,28,.14); }
+.dot-warn  { background: var(--txt-warning); box-shadow: 0 0 0 3px rgba(180,83,9,.14); }
+.dot-info  { background: var(--txt-info);    box-shadow: 0 0 0 3px rgba(29,78,216,.14); }
+.insight-body { flex: 1; }
+.insight-title { font-weight: 600; margin-bottom: 3px; }
+.insight-sub   { color: var(--txt-secondary); font-size: 11px; line-height: 1.5; }
+
+/* ── Cost rows ──────────────────────────────────────── */
+.cost-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--bdr-tertiary); font-size: 13px; }
+.cost-row:last-child { border-bottom: none; }
+.cost-label { color: var(--txt-secondary); }
+.cost-val   { font-weight: 600; }
+
+/* ── Stacked bar ────────────────────────────────────── */
+.stacked-bar { height: 14px; border-radius: 999px; overflow: hidden; display: flex; gap: 2px; margin: 10px 0 6px; }
+.seg { height: 100%; }
+.legend-row  { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--txt-secondary); font-weight: 500; }
+.legend-dot  { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ── FTA rows ───────────────────────────────────────── */
+.fta-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--bdr-tertiary); font-size: 12px; gap: 8px; }
+.fta-row:last-child { border-bottom: none; }
+.confidence-bar  { height: 5px; background: var(--bg-secondary); border-radius: 999px; overflow: hidden; width: 90px; }
+.confidence-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg,#22c55e,#16a34a); }
+
+/* ── TCS note ───────────────────────────────────────── */
+.tcs-note {
+  font-size: 11px; color: var(--txt-secondary);
+  background: #fffbeb; padding: 8px 12px;
+  border-radius: var(--r-md); margin-top: 10px;
+  border-left: 3px solid #fbbf24; line-height: 1.5;
+}
+.tcs-note span { font-weight: 700; color: #92400e; }
+
+/* ── VS cards ───────────────────────────────────────── */
+.vs-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.25rem; }
+.vs-card { border-radius: var(--r-lg); padding: 1.25rem 1.5rem; border: 1px solid var(--bdr-secondary); box-shadow: var(--shadow-card); }
+.vs-tb  { background: linear-gradient(135deg,#eff6ff,#dbeafe); border-color: #bfdbfe; }
+.vs-tcs { background: var(--bg-secondary); }
+.vs-title { font-size: 13px; font-weight: 700; margin-bottom: .85rem; }
+.vs-tb  .vs-title { color: #1d4ed8; }
+.vs-tcs .vs-title { color: var(--txt-secondary); }
+.vs-item { font-size: 12px; padding: 5px 0; display: flex; align-items: flex-start; gap: 8px; border-bottom: 1px solid rgba(0,0,0,.04); }
+.vs-item:last-child { border-bottom: none; }
+.check { color: var(--txt-success); font-size: 13px; flex-shrink: 0; }
+.cross { color: var(--txt-danger);  font-size: 13px; flex-shrink: 0; }
+
+/* ── Timeline ───────────────────────────────────────── */
+.mini-timeline { display: flex; flex-direction: column; }
+.tl-item { display: flex; gap: 12px; }
+.tl-dot-wrap { display: flex; flex-direction: column; align-items: center; width: 18px; flex-shrink: 0; }
+.tl-dot  { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; border: 2px solid var(--bg-primary); }
+.tl-line { width: 2px; flex: 1; background: var(--bdr-secondary); min-height: 14px; border-radius: 1px; margin-top: 2px; }
+.tl-content { flex: 1; padding-bottom: 12px; font-size: 12px; }
+.tl-label { font-weight: 600; margin-bottom: 2px; }
+.tl-sub   { color: var(--txt-secondary); font-size: 11px; line-height: 1.4; }
+
+/* ── Action buttons ─────────────────────────────────── */
+.abtn {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 500; padding: 6px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--bdr-info);
+  background: var(--bg-info); color: var(--txt-info);
+  transition: all .15s;
+}
+.abtn:hover { background: #dbeafe; box-shadow: 0 2px 8px rgba(29,78,216,.15); }
+.abtn-full { width: 100%; justify-content: center; margin-top: 12px; }
+
+/* ── Modal ──────────────────────────────────────────── */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(15,23,42,.55);
+  backdrop-filter: blur(4px);
+  z-index: 1000; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg-primary); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-float); padding: 1.75rem 2rem;
+  max-width: 520px; width: 90%;
+  border: 1px solid var(--bdr-secondary);
+  animation: mIn .2s ease;
+}
+@keyframes mIn { from { opacity:0; transform:translateY(14px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+.modal-head { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+.modal-icon {
+  width: 38px; height: 38px; border-radius: var(--r-md);
+  background: linear-gradient(135deg,#1d4ed8,#3b82f6);
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.modal-title { font-size: 15px; font-weight: 700; }
+.modal-sub   { font-size: 12px; color: var(--txt-secondary); margin-top: 1px; }
+.modal-body  {
+  font-size: 12px; line-height: 1.65; color: var(--txt-secondary);
+  background: var(--bg-secondary); padding: 1rem;
+  border-radius: var(--r-md); border: 1px solid var(--bdr-secondary);
+  margin-bottom: .75rem;
+}
+.modal-qlabel { font-size: 11px; font-weight: 700; color: var(--txt-secondary); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 5px; }
+.modal-qtext  { font-size: 13px; font-weight: 500; color: var(--txt-primary); font-style: italic; }
+.modal-note   { font-size: 11px; color: var(--txt-secondary); line-height: 1.6; margin-bottom: 14px; }
+.modal-close  {
+  width: 100%; padding: 9px; border-radius: var(--r-md);
+  border: 1px solid var(--bdr-secondary); background: var(--bg-secondary);
+  font-size: 13px; font-weight: 500; color: var(--txt-secondary); transition: all .15s;
+}
+.modal-close:hover { background: var(--bdr-secondary); }
+
+/* ── Footer ─────────────────────────────────────────── */
+.pf {
+  max-width: 1280px; margin: 0 auto; padding: .75rem 2rem 2.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; color: var(--txt-secondary);
+  border-top: 1px solid var(--bdr-secondary); margin-top: 1rem;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ Page header ══════════════════════════════════════ -->
+<header class="ph">
+  <div class="ph-inner">
+    <div class="brand">
+      <div class="brand-icon">🌐</div>
+      <div>
+        <div class="brand-name">Tradebridge Digital</div>
+        <div class="brand-sub">Importer Business Intelligence Platform</div>
+      </div>
+    </div>
+    <div class="ph-right">
+      <span class="h-pill h-pill-demo">DEMO — Committee Presentation</span>
+      <span class="h-pill h-pill-date">27 เมษายน 2568</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══ Import journey banner ════════════════════════════ -->
+<div class="jb">
+  <div class="jtrack">
+    <div class="jstep j-tb">
+      <div class="jlabel">1. Pre-trade</div>
+      <div class="jsub">ประเมินต้นทุนก่อนสั่งซื้อ<br>Scenario &amp; FTA comparison</div>
+      <span class="jown own-tb">Tradebridge เท่านั้น</span>
+      <div class="jarr">›</div>
+    </div>
+    <div class="jstep j-sh">
+      <div class="jlabel">2. Document Prep</div>
+      <div class="jsub">Broker รับเอกสาร<br>ตรวจสอบ pre-flight</div>
+      <span class="jown own-sh">TB + Broker</span>
+      <div class="jarr">›</div>
+    </div>
+    <div class="jstep j-sh">
+      <div class="jlabel">3. TCS Filing</div>
+      <div class="jsub">ยื่น กศก.99/1 ผ่าน NSW<br>ชำระอากร e-Payment</div>
+      <span class="jown own-sh">TCS / NSW</span>
+      <div class="jarr">›</div>
+    </div>
+    <div class="jstep j-sh">
+      <div class="jlabel">4. Customs Clearance</div>
+      <div class="jsub">ตรวจสอบ Green/Red Line<br>Release สินค้า</div>
+      <span class="jown own-sh">กรมศุลกากร</span>
+      <div class="jarr">›</div>
+    </div>
+    <div class="jstep j-an">
+      <div class="jlabel">5. Analytics &amp; Compliance</div>
+      <div class="jsub">ข้อมูลจริงเข้า TB Intelligence DB<br>CBAM · FTA performance · Post-audit</div>
+      <span class="jown own-an">Tradebridge เท่านั้น</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ Dashboard ════════════════════════════════════════ -->
+<div class="pw">
+
+  <!-- topbar -->
+  <div class="topbar">
+    <div class="logo">
+      Tradebridge Digital
+      <span class="logobadge">Importer Dashboard</span>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <span class="tcs-badge">TCS — ไม่มีข้อมูลเหล่านี้</span>
+      <select class="per-sel" onchange="filterPeriod(this.value)">
+        <option>Q2 2568</option>
+        <option>Q1 2568</option>
+        <option>ปี 2567</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('overview',this)">ภาพรวม</button>
+    <button class="tab" onclick="switchTab('pretrade',this)">Pre-trade Intelligence</button>
+    <button class="tab" onclick="switchTab('compliance',this)">Compliance &amp; FTA</button>
+    <button class="tab" onclick="switchTab('vs',this)">TB vs TCS</button>
+  </div>
+
+  <!-- ── PANEL: ภาพรวม ─────────────────────────────── -->
+  <div class="panel active" id="p-overview">
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">Total Landed Cost (QTD)</div>
+        <div class="metric-val">฿4.2M</div>
+        <div class="metric-sub metric-dn">▲ +8% vs Q1</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">FTA Savings</div>
+        <div class="metric-val" style="color:var(--txt-success)">฿318K</div>
+        <div class="metric-sub metric-up">▲ ประหยัดได้จริง Q2</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Green Line Rate</div>
+        <div class="metric-val">78%</div>
+        <div class="metric-sub metric-up">▲ +5% vs Q1</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Carbon Footprint</div>
+        <div class="metric-val">12.4t</div>
+        <div class="metric-sub" style="color:var(--txt-secondary)">CO₂e สะสม Q2</div>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div class="card">
+        <div class="card-title">Shipment Status — Active</div>
+        <div class="ship-row">
+          <span class="ship-id">TB-2568-041</span>
+          <span class="ship-hs">8471.30</span>
+          <div style="flex:1">
+            <div class="progress-label"><span>Pre-trade</span><span>Customs</span><span>Released</span></div>
+            <div class="progress-track"><div class="progress-bar bar-green" style="width:100%"></div></div>
+          </div>
+          <div class="ship-right"><span class="tag tag-green">Released</span></div>
+        </div>
+        <div class="ship-row">
+          <span class="ship-id">TB-2568-042</span>
+          <span class="ship-hs">6109.10</span>
+          <div style="flex:1">
+            <div class="progress-label"><span>Pre-trade</span><span>Customs</span><span>Released</span></div>
+            <div class="progress-track"><div class="progress-bar bar-blue" style="width:65%"></div></div>
+          </div>
+          <div class="ship-right"><span class="tag tag-info">Customs</span></div>
+        </div>
+        <div class="ship-row">
+          <span class="ship-id">TB-2568-043</span>
+          <span class="ship-hs">8517.12</span>
+          <div style="flex:1">
+            <div class="progress-label"><span>Pre-trade</span><span>Customs</span><span>Released</span></div>
+            <div class="progress-track"><div class="progress-bar bar-red" style="width:35%"></div></div>
+          </div>
+          <div class="ship-right">
+            <span class="tag tag-red">Red Line</span>
+            <button class="abtn" onclick="sendPrompt('อธิบาย Red Line prediction สำหรับ HS 8517.12 ว่าทำไมโดน Red Line')">ดูเหตุผล ↗</button>
+          </div>
+        </div>
+        <div class="ship-row">
+          <span class="ship-id">TB-2568-044</span>
+          <span class="ship-hs">2710.12</span>
+          <div style="flex:1">
+            <div class="progress-label"><span>Pre-trade</span><span>Customs</span><span>Released</span></div>
+            <div class="progress-track"><div class="progress-bar bar-blue" style="width:15%"></div></div>
+          </div>
+          <div class="ship-right"><span class="tag tag-gray">Doc Prep</span></div>
+        </div>
+        <div class="tcs-note"><span>TCS:</span> เห็นเฉพาะใบขนที่ยื่นแล้ว — ไม่เห็น pre-trade และ doc prep stage</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Cost Breakdown — Q2</div>
+        <div class="stacked-bar">
+          <div class="seg bar-blue"  style="width:68%"></div>
+          <div class="seg bar-red"   style="width:12%"></div>
+          <div class="seg bar-warn"  style="width:7%"></div>
+          <div class="seg bar-green" style="width:8%"></div>
+          <div class="seg" style="width:5%;background:var(--bdr-secondary)"></div>
+        </div>
+        <div class="legend-row" style="margin-bottom:12px">
+          <div class="legend-item"><div class="legend-dot" style="background:#2563eb"></div>Invoice 68%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#dc2626"></div>อากร 12%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#d97706"></div>VAT 7%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#16a34a"></div>Freight 8%</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#cbd5e1"></div>อื่นๆ 5%</div>
+        </div>
+        <div class="cost-row"><span class="cost-label">Invoice value</span><span class="cost-val">฿2,856K</span></div>
+        <div class="cost-row"><span class="cost-label">อากรขาเข้า</span><span class="cost-val">฿504K</span></div>
+        <div class="cost-row"><span class="cost-label">VAT</span><span class="cost-val">฿294K</span></div>
+        <div class="cost-row"><span class="cost-label">Freight + Insurance</span><span class="cost-val">฿336K</span></div>
+        <div class="cost-row"><span class="cost-label">FTA savings</span><span class="cost-val" style="color:var(--txt-success)">− ฿318K</span></div>
+        <div class="tcs-note"><span>TCS:</span> เห็นเฉพาะอากรต่อใบขน — ไม่มี multi-shipment cost view</div>
+      </div>
+    </div>
+
+    <div class="row3">
+      <div class="card">
+        <div class="card-title">AI Insights</div>
+        <div class="insight-row">
+          <div class="insight-dot dot-warn"></div>
+          <div class="insight-body">
+            <div class="insight-title">HS 6109.10 — CV Adjustment สูง</div>
+            <div class="insight-sub">ศุลกากรมักปรับ customs value +9.2% จาก invoice — ควรเผื่อไว้</div>
+          </div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-dot dot-green"></div>
+          <div class="insight-body">
+            <div class="insight-title">ACFTA Form E ยังใช้ได้</div>
+            <div class="insight-sub">Accept rate 94% สำหรับ HS หมวดนี้จากจีน</div>
+          </div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-dot dot-red"></div>
+          <div class="insight-body">
+            <div class="insight-title">8517.12 — Red Line 52%</div>
+            <div class="insight-sub">สินค้ากลุ่มนี้มักโดนตรวจ — วางแผน buffer 2–3 วัน</div>
+          </div>
+        </div>
+        <div class="tcs-note"><span>TCS:</span> ไม่มี predictive insights — รู้ผลหลังยื่นเท่านั้น</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Shipment Timeline</div>
+        <div class="mini-timeline">
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--txt-success)"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-label">Pre-trade Estimate</div><div class="tl-sub">Duty calc ก่อนสั่งซื้อ</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--txt-success)"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-label">Document Preparation</div><div class="tl-sub">Broker รับ + เตรียมเอกสาร</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--txt-info)"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-label">TCS Submission</div><div class="tl-sub">ยื่น กศก.99/1 ← TCS เริ่มที่นี่</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--txt-success)"></div><div class="tl-line"></div></div>
+            <div class="tl-content"><div class="tl-label">Duty Payment</div><div class="tl-sub">e-Payment / PromptPay</div></div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--bdr-secondary)"></div></div>
+            <div class="tl-content"><div class="tl-label">Cargo Released</div><div class="tl-sub">Actual data → TB Intelligence DB</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Carbon Tracker (CBAM)</div>
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Q2 สะสม</span><span>12.4t CO₂e</span></div>
+          <div class="progress-track"><div class="progress-bar bar-warn" style="width:62%"></div></div>
+          <div style="font-size:11px;color:var(--txt-secondary);margin-top:6px">เป้าปี 2568: 20t CO₂e</div>
+        </div>
+        <div class="cost-row"><span class="cost-label">EU CBAM Threshold</span><span class="cost-val">150t / ปี</span></div>
+        <div class="cost-row"><span class="cost-label">สินค้าที่ต้องรายงาน</span><span class="cost-val">2 รายการ</span></div>
+        <div class="cost-row"><span class="cost-label">รายงานถัดไป</span><span class="cost-val" style="color:var(--txt-warning)">31 ก.ค. 68</span></div>
+        <div class="tcs-note"><span>TCS:</span> ไม่มี carbon tracking ใดๆ</div>
+      </div>
+    </div>
+  </div><!-- /p-overview -->
+
+  <!-- ── PANEL: Pre-trade ──────────────────────────── -->
+  <div class="panel" id="p-pretrade">
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">Scenarios Analysed</div>
+        <div class="metric-val">14</div>
+        <div class="metric-sub">ก่อนสั่งซื้อ Q2</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">ประหยัดจาก Scenario</div>
+        <div class="metric-val" style="color:var(--txt-success)">฿142K</div>
+        <div class="metric-sub">เลือก FTA ถูกตัว</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Estimate Accuracy</div>
+        <div class="metric-val">94.2%</div>
+        <div class="metric-sub">vs actual (247 samples)</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Error Prevention</div>
+        <div class="metric-val">8</div>
+        <div class="metric-sub">ครั้งที่ระบบ flag ก่อนยื่น</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="card-title">Scenario Comparison — ก่อนสั่งซื้อ</div>
+        <div style="font-size:12px;color:var(--txt-secondary);margin-bottom:14px;font-weight:500">สินค้า: เสื้อผ้า HS 6109.10 | Invoice $20,000 USD</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+          <div style="border:2px solid var(--bdr-info);border-radius:var(--r-md);padding:14px;background:linear-gradient(135deg,#eff6ff,#dbeafe)">
+            <div style="font-size:10px;font-weight:700;color:var(--txt-info);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">★ แนะนำ</div>
+            <div style="font-weight:600;font-size:13px;margin-bottom:4px">จีน + ACFTA</div>
+            <div style="font-size:11px;color:var(--txt-secondary)">อากร: <strong style="color:var(--txt-success)">0%</strong></div>
+            <div style="font-size:22px;font-weight:700;color:var(--txt-success);margin-top:8px">฿724K</div>
+          </div>
+          <div style="border:1px solid var(--bdr-secondary);border-radius:var(--r-md);padding:14px;background:var(--bg-secondary)">
+            <div style="font-size:10px;font-weight:700;color:var(--txt-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">ทางเลือก</div>
+            <div style="font-weight:600;font-size:13px;margin-bottom:4px">เวียดนาม + AFTA</div>
+            <div style="font-size:11px;color:var(--txt-secondary)">อากร: <strong>0%</strong></div>
+            <div style="font-size:22px;font-weight:700;margin-top:8px">฿756K</div>
+          </div>
+          <div style="border:1px solid var(--bdr-danger);border-radius:var(--r-md);padding:14px;background:var(--bg-danger)">
+            <div style="font-size:10px;font-weight:700;color:var(--txt-danger);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">MFN</div>
+            <div style="font-weight:600;font-size:13px;margin-bottom:4px">สหรัฐฯ</div>
+            <div style="font-size:11px;color:var(--txt-secondary)">อากร: <strong style="color:var(--txt-danger)">30%</strong></div>
+            <div style="font-size:22px;font-weight:700;color:var(--txt-danger);margin-top:8px">฿1,032K</div>
+          </div>
+        </div>
+        <div class="tcs-note" style="margin-top:12px"><span>TCS:</span> ไม่มี scenario comparison — รู้ราคาหลังนำเข้าแล้วเท่านั้น</div>
+      </div>
+      <div class="card">
+        <div class="card-title">HS Code Intelligence</div>
+        <div class="fta-row">
+          <div>
+            <div style="font-weight:600">8471.30 คอมพิวเตอร์</div>
+            <div style="font-size:11px;color:var(--txt-secondary)">247 actual samples</div>
+          </div>
+          <div style="text-align:right">
+            <span class="tag tag-green">อากร 0%</span>
+            <div class="confidence-bar" style="margin-top:6px;margin-left:auto"><div class="confidence-fill" style="width:98%"></div></div>
+            <div style="font-size:10px;color:var(--txt-secondary);margin-top:3px;font-weight:600">98% confidence</div>
+          </div>
+        </div>
+        <div class="fta-row">
+          <div>
+            <div style="font-weight:600">6109.10 เสื้อผ้า</div>
+            <div style="font-size:11px;color:var(--txt-secondary)">43 actual samples</div>
+          </div>
+          <div style="text-align:right">
+            <span class="tag tag-warn">CV +9.2%</span>
+            <div class="confidence-bar" style="margin-top:6px;margin-left:auto"><div class="confidence-fill" style="width:71%;background:linear-gradient(90deg,#fbbf24,#d97706)"></div></div>
+            <div style="font-size:10px;color:var(--txt-secondary);margin-top:3px;font-weight:600">71% confidence</div>
+          </div>
+        </div>
+        <div class="fta-row">
+          <div>
+            <div style="font-weight:600">8517.12 โทรศัพท์</div>
+            <div style="font-size:11px;color:var(--txt-secondary)">12 actual samples</div>
+          </div>
+          <div style="text-align:right">
+            <span class="tag tag-red">Red 52%</span>
+            <div class="confidence-bar" style="margin-top:6px;margin-left:auto"><div class="confidence-fill" style="width:38%;background:linear-gradient(90deg,#f87171,#dc2626)"></div></div>
+            <div style="font-size:10px;color:var(--txt-secondary);margin-top:3px;font-weight:600">38% confidence</div>
+          </div>
+        </div>
+        <button class="abtn abtn-full" onclick="sendPrompt('อธิบาย confidence score ของ Tradebridge คำนวณอย่างไรจาก actual data')">ดูวิธีคำนวณ Confidence Score ↗</button>
+      </div>
+    </div>
+  </div><!-- /p-pretrade -->
+
+  <!-- ── PANEL: Compliance ─────────────────────────── -->
+  <div class="panel" id="p-compliance">
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">FTA Savings YTD</div>
+        <div class="metric-val" style="color:var(--txt-success)">฿318K</div>
+        <div class="metric-sub">ACFTA + AFTA + RCEP</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">FTA Accept Rate</div>
+        <div class="metric-val">91%</div>
+        <div class="metric-sub">Form ที่ถูก accept จริง</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Post-clearance Records</div>
+        <div class="metric-val">100%</div>
+        <div class="metric-sub">ครบ ≥ 6 เดือน</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Pre-filing Errors</div>
+        <div class="metric-val" style="color:var(--txt-success)">0</div>
+        <div class="metric-sub">pre-flight catch ทั้งหมด</div>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="card">
+        <div class="card-title">FTA Performance Tracker</div>
+        <div class="fta-row">
+          <div style="min-width:110px"><div style="font-weight:600">ACFTA (จีน)</div><div style="font-size:11px;color:var(--txt-secondary)">Form E</div></div>
+          <div style="flex:1;margin:0 12px">
+            <div class="progress-track"><div class="progress-bar bar-green" style="width:94%"></div></div>
+            <div style="font-size:10px;color:var(--txt-secondary);margin-top:3px;font-weight:600">Accept 94%</div>
+          </div>
+          <span class="tag tag-green">฿198K saved</span>
+        </div>
+        <div class="fta-row">
+          <div style="min-width:110px"><div style="font-weight:600">AFTA (เวียดนาม)</div><div style="font-size:11px;color:var(--txt-secondary)">Form D</div></div>
+          <div style="flex:1;margin:0 12px">
+            <div class="progress-track"><div class="progress-bar bar-green" style="width:88%"></div></div>
+            <div style="font-size:10px;color:var(--txt-secondary);margin-top:3px;font-weight:600">Accept 88%</div>
+          </div>
+          <span class="tag tag-green">฿76K saved</span>
+        </div>
+        <div class="fta-row">
+          <div style="min-width:110px"><div style="font-weight:600">RCEP (ญี่ปุ่น)</div><div style="font-size:11px;color:var(--txt-secondary)">Form RCEP</div></div>
+          <div style="flex:1;margin:0 12px">
+            <div class="progress-track"><div class="progress-bar bar-warn" style="width:62%"></div></div>
+            <div style="font-size:10px;color:var(--txt-warning);margin-top:3px;font-weight:600">Accept 62% — ระวัง</div>
+          </div>
+          <span class="tag tag-warn">฿44K saved</span>
+        </div>
+        <div class="tcs-note"><span>TCS:</span> ไม่มี FTA performance summary — ต้องดูทีละใบขน</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Compliance Health</div>
+        <div class="insight-row">
+          <div class="insight-dot dot-green"></div>
+          <div class="insight-body">
+            <div class="insight-title">Post-clearance Records ครบ</div>
+            <div class="insight-sub">เก็บ invoice data ≥ 6 เดือนทุก shipment — พร้อม export</div>
+          </div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-dot dot-warn"></div>
+          <div class="insight-body">
+            <div class="insight-title">RCEP Form Reject Rate สูง</div>
+            <div class="insight-sub">Rules of Origin อาจไม่ครบ — ตรวจสอบ local content %</div>
+          </div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-dot dot-info"></div>
+          <div class="insight-body">
+            <div class="insight-title">CBAM Deadline ใกล้</div>
+            <div class="insight-sub">รายงาน Q2 ต้องส่ง 31 ก.ค. 2568 — ข้อมูลพร้อมแล้ว</div>
+          </div>
+        </div>
+        <button class="abtn abtn-full" onclick="sendPrompt('ช่วยออกแบบ export report สำหรับ post-clearance audit ตามที่กรมศุลกากรกำหนด')">Export Audit Report ↗</button>
+      </div>
+    </div>
+  </div><!-- /p-compliance -->
+
+  <!-- ── PANEL: TB vs TCS ──────────────────────────── -->
+  <div class="panel" id="p-vs">
+    <div class="vs-row">
+      <div class="vs-card vs-tb">
+        <div class="vs-title">✓ Tradebridge Digital</div>
+        <div class="vs-item"><span class="check">✓</span>Pre-trade duty estimate ก่อนสั่งซื้อ</div>
+        <div class="vs-item"><span class="check">✓</span>Scenario comparison หลาย origin</div>
+        <div class="vs-item"><span class="check">✓</span>FTA savings tracker ภาพรวม</div>
+        <div class="vs-item"><span class="check">✓</span>Red Line prediction ก่อนยื่น</div>
+        <div class="vs-item"><span class="check">✓</span>Importer-Broker workflow</div>
+        <div class="vs-item"><span class="check">✓</span>Multi-shipment dashboard</div>
+        <div class="vs-item"><span class="check">✓</span>Carbon footprint / CBAM tracker</div>
+        <div class="vs-item"><span class="check">✓</span>Tariff intelligence จาก actual data</div>
+        <div class="vs-item"><span class="check">✓</span>Post-clearance records ครบ export ได้</div>
+      </div>
+      <div class="vs-card vs-tcs">
+        <div class="vs-title">TCS / NSW (กรมศุลกากร)</div>
+        <div class="vs-item"><span class="cross">✗</span>ไม่มี pre-trade stage</div>
+        <div class="vs-item"><span class="cross">✗</span>ไม่มี scenario comparison</div>
+        <div class="vs-item"><span class="cross">✗</span>ดู FTA ทีละใบขนเท่านั้น</div>
+        <div class="vs-item"><span class="cross">✗</span>ไม่มี prediction — รู้ผลหลังยื่น</div>
+        <div class="vs-item"><span class="cross">✗</span>ไม่มี collaboration tool</div>
+        <div class="vs-item"><span class="check">✓</span>คำนวณ duty official และ binding</div>
+        <div class="vs-item"><span class="cross">✗</span>ไม่มี carbon tracking</div>
+        <div class="vs-item"><span class="cross">✗</span>ไม่เปิดเผย aggregate data</div>
+        <div class="vs-item"><span class="check">✓</span>เก็บ records ฝั่งราชการ</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">สรุป — Tradebridge อยู่ตรงไหนใน Import Journey</div>
+      <div style="display:flex;align-items:stretch;margin:10px 0;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--bdr-secondary)">
+        <div style="flex:1;padding:12px 14px;background:linear-gradient(135deg,#eff6ff,#dbeafe);border-right:1px solid #bfdbfe">
+          <div style="font-weight:700;color:var(--txt-info);font-size:12px">Pre-trade</div>
+          <div style="font-size:11px;color:var(--txt-info);margin-top:3px">Tradebridge เท่านั้น</div>
+        </div>
+        <div style="flex:1;padding:12px 14px;background:var(--bg-secondary);border-right:1px solid var(--bdr-secondary);text-align:center">
+          <div style="font-weight:600;font-size:12px">Filing</div>
+          <div style="font-size:11px;color:var(--txt-secondary);margin-top:3px">TB + Software/NSP + TCS</div>
+        </div>
+        <div style="flex:1;padding:12px 14px;background:var(--bg-secondary);border-right:1px solid var(--bdr-secondary);text-align:center">
+          <div style="font-weight:600;font-size:12px">Post-clearance</div>
+          <div style="font-size:11px;color:var(--txt-secondary);margin-top:3px">TB Intelligence DB</div>
+        </div>
+        <div style="flex:1;padding:12px 14px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);text-align:right">
+          <div style="font-weight:700;color:var(--txt-success);font-size:12px">Analytics</div>
+          <div style="font-size:11px;color:var(--txt-success);margin-top:3px">Tradebridge เท่านั้น</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /p-vs -->
+
+</div><!-- /.pw -->
+
+<!-- ══ Modal ════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-icon">🤖</div>
+      <div>
+        <div class="modal-title">AI Assistant</div>
+        <div class="modal-sub">Tradebridge Intelligence Engine</div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-qlabel">Query ส่งไปยัง AI</div>
+      <div class="modal-qtext" id="modal-qtext"></div>
+    </div>
+    <div class="modal-note">ในระบบจริง AI จะวิเคราะห์ข้อมูลจาก actual clearance records และตอบแบบ real-time พร้อมแนะนำแนวทางปฏิบัติที่เหมาะสม</div>
+    <button class="modal-close" onclick="closeModal()">ปิด</button>
+  </div>
+</div>
+
+<!-- ══ Footer ════════════════════════════════════════════ -->
+<footer class="pf">
+  <span>Tradebridge Digital — Importer Business Intelligence Platform</span>
+  <span>COMMITTEE DEMO · 27 เมษายน 2568 · Confidential</span>
+</footer>
+
+<script>
+function switchTab(id, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('p-' + id).classList.add('active');
+}
+function filterPeriod(v) { console.log('filter', v); }
+function sendPrompt(text) {
+  document.getElementById('modal-qtext').textContent = text;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal(event) {
+  if (!event || event.target === document.getElementById('modal-overlay')) {
+    document.getElementById('modal-overlay').classList.remove('open');
+  }
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
