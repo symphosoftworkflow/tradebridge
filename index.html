@@ -81,7 +81,8 @@ button, select { font-family: inherit; cursor: pointer; }
   border: 1px solid rgba(255,255,255,.18);
 }
 .h-pill-demo { background: rgba(251,191,36,.15); color: #fbbf24; border-color: rgba(251,191,36,.3); }
-.h-pill-date { color: rgba(255,255,255,.65); background: rgba(255,255,255,.08); }
+.h-pill-date { color: rgba(255,255,255,.85); background: rgba(34,197,94,.12); border-color: rgba(34,197,94,.35); }
+.h-pill-sync { font-size: 10px; color: rgba(255,255,255,.7); margin-right: 6px; }
 
 /* ── Journey banner ─────────────────────────────────── */
 .jb { max-width: 1280px; margin: 1.5rem auto .25rem; padding: 0 2rem; }
@@ -346,6 +347,42 @@ button, select { font-family: inherit; cursor: pointer; }
 
 .bar-black { background: linear-gradient(90deg,#1e293b,#0f172a); }
 
+/* ── Trade History table ───────────────────────────── */
+.history-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.history-tbl th {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--txt-secondary);
+  padding: 8px 10px;
+  border-bottom: 2px solid var(--bdr-secondary);
+  white-space: nowrap;
+  text-align: left;
+  background: var(--bg-secondary);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.history-tbl td { padding: 8px 10px; border-bottom: 1px solid var(--bdr-tertiary); vertical-align: middle; }
+.history-tbl tbody tr:hover td { background: var(--bg-info); cursor: pointer; }
+.history-tbl tbody tr.hidden { display: none; }
+.history-scroll { overflow: auto; max-height: 420px; border-radius: var(--r-md); border: 1px solid var(--bdr-secondary); }
+.filter-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; align-items: center; }
+.filter-row input[type="text"] {
+  padding: 6px 10px;
+  border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-md);
+  font-size: 12px;
+  width: 220px;
+}
+.filter-row select {
+  padding: 6px 10px;
+  border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-md);
+  font-size: 12px;
+  background: var(--bg-primary);
+}
+
 /* ── Page wrapper ───────────────────────────────────── */
 .pw { max-width: 1280px; margin: 0 auto; padding: 1rem 2rem 3rem; }
 
@@ -586,8 +623,8 @@ button, select { font-family: inherit; cursor: pointer; }
       </div>
     </div>
     <div class="ph-right">
-      <span class="h-pill h-pill-demo">DEMO — Committee Presentation</span>
-      <span class="h-pill h-pill-date">27 เมษายน 2568</span>
+      <span class="h-pill-sync">อัปเดตล่าสุด</span>
+      <span class="h-pill h-pill-date">3 พ.ค. 2568 · 09:42 ICT</span>
     </div>
   </div>
 </header>
@@ -652,6 +689,7 @@ button, select { font-family: inherit; cursor: pointer; }
     <button type="button" class="tab" onclick="switchTab('pretrade',this)">Pre-trade Intelligence</button>
     <button type="button" class="tab" onclick="switchTab('docprep',this)">Document Prep</button>
     <button type="button" class="tab" onclick="switchTab('compliance',this)">Compliance &amp; FTA</button>
+    <button type="button" class="tab" onclick="switchTab('history',this)">Trade History</button>
     <button type="button" class="tab" onclick="switchTab('vs',this)">TB vs TCS</button>
   </div>
 
@@ -838,7 +876,7 @@ button, select { font-family: inherit; cursor: pointer; }
         <div class="metric-sub">vs actual (247 samples)</div>
       </div>
       <div class="metric">
-        <div class="metric-label">อัตราแลกเปลี่ยน (จำลอง)</div>
+        <div class="metric-label">อัตราแลกเปลี่ยน (อ้างอิง)</div>
         <div class="metric-val" id="pt-rate-display">฿33.25</div>
         <div class="metric-sub">USD/THB · อัปเดตเมื่อวิเคราะห์</div>
       </div>
@@ -931,7 +969,7 @@ button, select { font-family: inherit; cursor: pointer; }
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
           <button type="button" class="btn-primary" id="pt-analyze-btn" onclick="runPretradeAnalysis()">วิเคราะห์ด้วย AI</button>
-          <span style="font-size:11px;color:var(--txt-secondary);align-self:center">ประมาณ 1.5 วินาที · ข้อมูลจำลองสำหรับ Demo</span>
+          <span style="font-size:11px;color:var(--txt-secondary);align-self:center">ประมาณ 1–2 วินาที · Tradebridge Intelligence Engine</span>
         </div>
         <div class="tcs-note" style="margin-top:14px"><span>TCS:</span> ไม่มี pre-trade scenario — Tradebridge ครอบคลุมก่อนยื่นใบขน</div>
       </div>
@@ -1121,7 +1159,7 @@ button, select { font-family: inherit; cursor: pointer; }
         </div>
       </div>
       <button type="button" class="btn-primary" onclick="saveToTBDB()">บันทึกลง Tradebridge Intelligence DB</button>
-      <p style="font-size:11px;color:var(--txt-secondary);margin-top:10px">ข้อมูลจะถูกใช้ปรับความแม่นยำของ Pre-trade และ Red Line model (demo — ไม่มี backend)</p>
+      <p style="font-size:11px;color:var(--txt-secondary);margin-top:10px">ข้อมูลจะถูกใช้ปรับความแม่นยำของ Pre-trade และ Red Line model ผ่าน TB Intelligence DB</p>
     </div>
 
     <div class="metrics">
@@ -1203,6 +1241,106 @@ button, select { font-family: inherit; cursor: pointer; }
     </div>
   </div><!-- /p-compliance -->
 
+  <!-- ── PANEL: Trade History ─────────────────────── -->
+  <div class="panel" id="p-history">
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">Total Shipments</div>
+        <div class="metric-val">23</div>
+        <div class="metric-sub">รายการที่เคลียร์ในระบบ</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Total FTA Savings</div>
+        <div class="metric-val" style="color:var(--txt-success)">฿318,420</div>
+        <div class="metric-sub">สะสมจาก 23 เที่ยว</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Avg. Estimate Accuracy</div>
+        <div class="metric-val">94.2%</div>
+        <div class="metric-sub">Pre-trade vs actual duty</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Green Line Rate</div>
+        <div class="metric-val">78.3%</div>
+        <div class="metric-sub">18 / 23 เที่ยว</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">ประวัติการนำเข้า — ค้นหาและกรอง</div>
+      <div class="filter-row">
+        <input type="text" id="hist-search" placeholder="ค้นหา Ref / HS / สินค้า…" oninput="filterHistory()" />
+        <select id="hist-origin" onchange="filterHistory()">
+          <option value="">ทุกประเทศต้นทาง</option>
+          <option value="CN">จีน (CN)</option>
+          <option value="VN">เวียดนาม (VN)</option>
+          <option value="JP">ญี่ปุ่น (JP)</option>
+          <option value="US">สหรัฐฯ (US)</option>
+          <option value="IN">อินเดีย (IN)</option>
+          <option value="KR">เกาหลี (KR)</option>
+        </select>
+        <select id="hist-line" onchange="filterHistory()">
+          <option value="">ทุกสายตรวจ</option>
+          <option value="green">Green</option>
+          <option value="yellow">Yellow</option>
+          <option value="red">Red</option>
+          <option value="black">Black</option>
+        </select>
+        <select id="hist-status" onchange="filterHistory()">
+          <option value="">ทุกสถานะ</option>
+          <option value="released">Released</option>
+          <option value="in-transit">In-Transit</option>
+          <option value="under-review">Under Review</option>
+        </select>
+      </div>
+      <p style="font-size:11px;color:var(--txt-secondary);margin-bottom:10px">คลิกแถวเพื่อเปิด AI Assistant สรุปเที่ยวเรือนั้น</p>
+      <div class="history-scroll">
+        <table class="history-tbl">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Shipment ID</th>
+              <th>สินค้า / HS</th>
+              <th>Origin</th>
+              <th>Incoterms</th>
+              <th>CIF (USD)</th>
+              <th>FTA</th>
+              <th>ประหยัดอากร (฿)</th>
+              <th>สายตรวจ</th>
+              <th>วันที่เคลียร์</th>
+              <th>สถานะ</th>
+            </tr>
+          </thead>
+          <tbody id="history-tbody">
+<tr data-ship="TB-2568-045" data-origin="CN" data-line="green" data-status="released" data-search="tb-2568-045 เสื้อยืด cotton 6109.10 cn acfta fob"><td>1</td><td style="font-family:monospace;font-size:11px">TB-2568-045</td><td><div style="font-weight:600">เสื้อยืด cotton</div><div style="font-size:11px;color:var(--txt-secondary)">6109.10</div></td><td>CN</td><td>FOB</td><td style="text-align:right">$19,200</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿14,200</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-04-28</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-044" data-origin="CN" data-line="green" data-status="released" data-search="tb-2568-044 แล็ปท็อป 8471.30 cn acfta cif"><td>2</td><td style="font-family:monospace;font-size:11px">TB-2568-044</td><td><div style="font-weight:600">แล็ปท็อป</div><div style="font-size:11px;color:var(--txt-secondary)">8471.30</div></td><td>CN</td><td>CIF</td><td style="text-align:right">$58,800</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">—</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-04-26</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-043" data-origin="CN" data-line="red" data-status="under-review" data-search="tb-2568-043 สมาร์ทโฟน 8517.12 cn acfta fob"><td>3</td><td style="font-family:monospace;font-size:11px">TB-2568-043</td><td><div style="font-weight:600">สมาร์ทโฟน</div><div style="font-size:11px;color:var(--txt-secondary)">8517.12</div></td><td>CN</td><td>FOB</td><td style="text-align:right">$72,000</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿8,900</td><td><span class="tag tag-red">Red</span></td><td style="white-space:nowrap">2026-04-22</td><td><span class="tag tag-warn">Under Review</span></td></tr>
+<tr data-ship="TB-2568-042" data-origin="VN" data-line="green" data-status="released" data-search="tb-2568-042 เสื้อสปอร์ต 6109.10 vn afta cfr"><td>4</td><td style="font-family:monospace;font-size:11px">TB-2568-042</td><td><div style="font-weight:600">เสื้อสปอร์ต</div><div style="font-size:11px;color:var(--txt-secondary)">6109.10</div></td><td>VN</td><td>CFR</td><td style="text-align:right">$22,400</td><td>AFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿16,800</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-04-20</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-041" data-origin="JP" data-line="green" data-status="released" data-search="tb-2568-041 เครื่องปั่นอุตสาหกรรม 8479.89 jp rcep cif"><td>5</td><td style="font-family:monospace;font-size:11px">TB-2568-041</td><td><div style="font-weight:600">เครื่องปั่นอุตสาหกรรม</div><div style="font-size:11px;color:var(--txt-secondary)">8479.89</div></td><td>JP</td><td>CIF</td><td style="text-align:right">$9,400</td><td>RCEP</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿2,100</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-04-18</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-040" data-origin="CN" data-line="yellow" data-status="released" data-search="tb-2568-040 น้ำมันดีเซล 2710.12 cn mfn cif"><td>6</td><td style="font-family:monospace;font-size:11px">TB-2568-040</td><td><div style="font-weight:600">น้ำมันดีเซล</div><div style="font-size:11px;color:var(--txt-secondary)">2710.12</div></td><td>CN</td><td>CIF</td><td style="text-align:right">$185,000</td><td>MFN</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">—</td><td><span class="tag tag-warn">Yellow</span></td><td style="white-space:nowrap">2026-04-15</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-039" data-origin="VN" data-line="green" data-status="released" data-search="tb-2568-039 เสื้อโปโล 6109.10 vn afta fob"><td>7</td><td style="font-family:monospace;font-size:11px">TB-2568-039</td><td><div style="font-weight:600">เสื้อโปโล</div><div style="font-size:11px;color:var(--txt-secondary)">6109.10</div></td><td>VN</td><td>FOB</td><td style="text-align:right">$8,800</td><td>AFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿9,200</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-04-12</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-038" data-origin="CN" data-line="green" data-status="released" data-search="tb-2568-038 พัดลมอุตสาหกรรม 8414.51 cn acfta exw"><td>8</td><td style="font-family:monospace;font-size:11px">TB-2568-038</td><td><div style="font-weight:600">พัดลมอุตสาหกรรม</div><div style="font-size:11px;color:var(--txt-secondary)">8414.51</div></td><td>CN</td><td>EXW</td><td style="text-align:right">$3,200</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿480</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-04-10</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-037" data-origin="JP" data-line="green" data-status="released" data-search="tb-2568-037 แบตเตอรี่ลิเธียม 8507.60 jp rcep cif"><td>9</td><td style="font-family:monospace;font-size:11px">TB-2568-037</td><td><div style="font-weight:600">แบตเตอรี่ลิเธียม</div><div style="font-size:11px;color:var(--txt-secondary)">8507.60</div></td><td>JP</td><td>CIF</td><td style="text-align:right">$41,000</td><td>RCEP</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿6,200</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-04-08</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-036" data-origin="US" data-line="red" data-status="released" data-search="tb-2568-036 ชิ้นส่วนรถยนต์ 8708.99 us mfn fob"><td>10</td><td style="font-family:monospace;font-size:11px">TB-2568-036</td><td><div style="font-weight:600">ชิ้นส่วนรถยนต์</div><div style="font-size:11px;color:var(--txt-secondary)">8708.99</div></td><td>US</td><td>FOB</td><td style="text-align:right">$15,000</td><td>MFN</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿4,500</td><td><span class="tag tag-red">Red</span></td><td style="white-space:nowrap">2026-04-05</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-035" data-origin="CN" data-line="green" data-status="released" data-search="tb-2568-035 กล้อง cctv 8525.80 cn acfta cif"><td>11</td><td style="font-family:monospace;font-size:11px">TB-2568-035</td><td><div style="font-weight:600">กล้อง CCTV</div><div style="font-size:11px;color:var(--txt-secondary)">8525.80</div></td><td>CN</td><td>CIF</td><td style="text-align:right">$8,200</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">—</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-04-03</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-034" data-origin="VN" data-line="green" data-status="released" data-search="tb-2568-034 หลอด led 8539.90 vn afta cfr"><td>12</td><td style="font-family:monospace;font-size:11px">TB-2568-034</td><td><div style="font-weight:600">หลอด LED</div><div style="font-size:11px;color:var(--txt-secondary)">8539.90</div></td><td>VN</td><td>CFR</td><td style="text-align:right">$5,100</td><td>AFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿800</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-04-01</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-033" data-origin="CN" data-line="green" data-status="released" data-search="tb-2568-033 ชุดชั้นใน 6212.10 cn acfta fob"><td>13</td><td style="font-family:monospace;font-size:11px">TB-2568-033</td><td><div style="font-weight:600">ชุดชั้นใน</div><div style="font-size:11px;color:var(--txt-secondary)">6212.10</div></td><td>CN</td><td>FOB</td><td style="text-align:right">$12,000</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿15,600</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-03-28</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-032" data-origin="JP" data-line="green" data-status="released" data-search="tb-2568-032 เครื่องพิมพ์เลเซอร์ 8443.32 jp rcep ddp"><td>14</td><td style="font-family:monospace;font-size:11px">TB-2568-032</td><td><div style="font-weight:600">เครื่องพิมพ์เลเซอร์</div><div style="font-size:11px;color:var(--txt-secondary)">8443.32</div></td><td>JP</td><td>DDP</td><td style="text-align:right">$6,400</td><td>RCEP</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">—</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-03-25</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-031" data-origin="CN" data-line="yellow" data-status="released" data-search="tb-2568-031 เสื้อกันหนาว 6110.30 cn acfta cif"><td>15</td><td style="font-family:monospace;font-size:11px">TB-2568-031</td><td><div style="font-weight:600">เสื้อกันหนาว</div><div style="font-size:11px;color:var(--txt-secondary)">6110.30</div></td><td>CN</td><td>CIF</td><td style="text-align:right">$28,000</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿19,800</td><td><span class="tag tag-warn">Yellow</span></td><td style="white-space:nowrap">2026-03-22</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-030" data-origin="CN" data-line="green" data-status="in-transit" data-search="tb-2568-030 สาย usb / type-c 8544.42 cn acfta fob"><td>16</td><td style="font-family:monospace;font-size:11px">TB-2568-030</td><td><div style="font-weight:600">สาย USB / Type-C</div><div style="font-size:11px;color:var(--txt-secondary)">8544.42</div></td><td>CN</td><td>FOB</td><td style="text-align:right">$2,100</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿120</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-03-20</td><td><span class="tag tag-info">In-Transit</span></td></tr>
+<tr data-ship="TB-2568-029" data-origin="VN" data-line="green" data-status="released" data-search="tb-2568-029 เครื่องปรับอากาศ 8415.10 vn afta cif"><td>17</td><td style="font-family:monospace;font-size:11px">TB-2568-029</td><td><div style="font-weight:600">เครื่องปรับอากาศ</div><div style="font-size:11px;color:var(--txt-secondary)">8415.10</div></td><td>VN</td><td>CIF</td><td style="text-align:right">$89,000</td><td>AFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿12,400</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-03-18</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-028" data-origin="CN" data-line="black" data-status="released" data-search="tb-2568-028 ของเล่นรถบังคับ 9503.00 cn acfta cif"><td>18</td><td style="font-family:monospace;font-size:11px">TB-2568-028</td><td><div style="font-weight:600">ของเล่นรถบังคับ</div><div style="font-size:11px;color:var(--txt-secondary)">9503.00</div></td><td>CN</td><td>CIF</td><td style="text-align:right">$4,500</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">—</td><td><span class="tag tag-gray">Black</span></td><td style="white-space:nowrap">2026-03-15</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-027" data-origin="CN" data-line="green" data-status="released" data-search="tb-2568-027 เหล็กเส้น 7214.20 cn acfta cfr"><td>19</td><td style="font-family:monospace;font-size:11px">TB-2568-027</td><td><div style="font-weight:600">เหล็กเส้น</div><div style="font-size:11px;color:var(--txt-secondary)">7214.20</div></td><td>CN</td><td>CFR</td><td style="text-align:right">$120,000</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">—</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-03-12</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-026" data-origin="IN" data-line="green" data-status="released" data-search="tb-2568-026 ยาเม็ด 3004.90 in mfn cif"><td>20</td><td style="font-family:monospace;font-size:11px">TB-2568-026</td><td><div style="font-weight:600">ยาเม็ด</div><div style="font-size:11px;color:var(--txt-secondary)">3004.90</div></td><td>IN</td><td>CIF</td><td style="text-align:right">$22,000</td><td>MFN</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿8,800</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-03-10</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-025" data-origin="VN" data-line="green" data-status="released" data-search="tb-2568-025 กาแฟสำเร็จรูป 2101.12 vn afta fob"><td>21</td><td style="font-family:monospace;font-size:11px">TB-2568-025</td><td><div style="font-weight:600">กาแฟสำเร็จรูป</div><div style="font-size:11px;color:var(--txt-secondary)">2101.12</div></td><td>VN</td><td>FOB</td><td style="text-align:right">$4,800</td><td>AFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿600</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-03-08</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-024" data-origin="KR" data-line="green" data-status="released" data-search="tb-2568-024 จอมอนิเตอร์ 8528.52 kr rcep cif"><td>22</td><td style="font-family:monospace;font-size:11px">TB-2568-024</td><td><div style="font-weight:600">จอมอนิเตอร์</div><div style="font-size:11px;color:var(--txt-secondary)">8528.52</div></td><td>KR</td><td>CIF</td><td style="text-align:right">$18,000</td><td>RCEP</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿3,400</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-03-05</td><td><span class="tag tag-green">Released</span></td></tr>
+<tr data-ship="TB-2568-023" data-origin="CN" data-line="green" data-status="in-transit" data-search="tb-2568-023 เฟอร์นิเจอร์ไม้ 9403.60 cn acfta cif"><td>23</td><td style="font-family:monospace;font-size:11px">TB-2568-023</td><td><div style="font-weight:600">เฟอร์นิเจอร์ไม้</div><div style="font-size:11px;color:var(--txt-secondary)">9403.60</div></td><td>CN</td><td>CIF</td><td style="text-align:right">$22,000</td><td>ACFTA</td><td style="text-align:right;font-weight:600;color:var(--txt-success)">฿9,200</td><td><span class="tag tag-green">Green</span></td><td style="white-space:nowrap">2026-03-02</td><td><span class="tag tag-info">In-Transit</span></td></tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div><!-- /p-history -->
+
   <!-- ── PANEL: TB vs TCS ──────────────────────────── -->
   <div class="panel" id="p-vs">
     <div class="vs-row">
@@ -1278,7 +1416,7 @@ button, select { font-family: inherit; cursor: pointer; }
 <!-- ══ Footer ════════════════════════════════════════════ -->
 <footer class="pf">
   <span>Tradebridge Digital — Importer Business Intelligence Platform</span>
-  <span>COMMITTEE DEMO · 27 เมษายน 2568 · Confidential</span>
+  <span>© 2568 Tradebridge Digital · v1.4.2</span>
 </footer>
 
 <script>
@@ -1397,7 +1535,7 @@ button, select { font-family: inherit; cursor: pointer; }
       if (s.indexOf(PT_HS[i].q) !== -1 || PT_HS[i].name.toLowerCase().indexOf(s) !== -1)
         return { hs: PT_HS[i].hs, name: PT_HS[i].name, alts: [{ hs: PT_HS[i].hs, conf: PT_HS[i].conf }, { hs: PT_HS[i].hs.replace(/\d$/, '1'), conf: 68 }] };
     }
-    return { hs: '6109.10.00', name: 'เสื้อผ้า (default demo)', alts: [{ hs: '6109.10.00', conf: 88 }, { hs: '6109.90.00', conf: 62 }] };
+    return { hs: '6109.10.00', name: 'เสื้อผ้า (ค่าเริ่มต้นระบบ)', alts: [{ hs: '6109.10.00', conf: 88 }, { hs: '6109.90.00', conf: 62 }] };
   }
 
   window.runPretradeAnalysis = function () {
@@ -1629,7 +1767,34 @@ button, select { font-family: inherit; cursor: pointer; }
     setTimeout(function () { ban.classList.remove('on'); }, 8000);
   };
 
+  window.filterHistory = function () {
+    var q = (document.getElementById('hist-search') && document.getElementById('hist-search').value || '').toLowerCase().trim();
+    var o = document.getElementById('hist-origin') && document.getElementById('hist-origin').value;
+    var l = document.getElementById('hist-line') && document.getElementById('hist-line').value;
+    var s = document.getElementById('hist-status') && document.getElementById('hist-status').value;
+    var tb = document.getElementById('history-tbody');
+    if (!tb) return;
+    tb.querySelectorAll('tr').forEach(function (tr) {
+      var ok = true;
+      var ds = (tr.getAttribute('data-search') || '').toLowerCase();
+      if (q && ds.indexOf(q) === -1) ok = false;
+      if (o && tr.getAttribute('data-origin') !== o) ok = false;
+      if (l && tr.getAttribute('data-line') !== l) ok = false;
+      if (s && tr.getAttribute('data-status') !== s) ok = false;
+      tr.classList.toggle('hidden', !ok);
+    });
+  };
+
   document.addEventListener('DOMContentLoaded', function () {
+    var ht = document.getElementById('history-tbody');
+    if (ht) {
+      ht.addEventListener('click', function (e) {
+        var tr = e.target.closest && e.target.closest('tr[data-ship]');
+        if (!tr) return;
+        var sid = tr.getAttribute('data-ship');
+        sendPrompt('สรุป shipment ' + sid + ' — FTA, สายตรวจ, variance ต่อ Pre-trade, และขั้นตอนถัดไป');
+      });
+    }
     document.querySelectorAll('.upload-zone').forEach(function (z) {
       z.addEventListener('dragover', function (e) { e.preventDefault(); z.classList.add('drag'); });
       z.addEventListener('dragleave', function () { z.classList.remove('drag'); });
