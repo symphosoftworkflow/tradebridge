@@ -119,6 +119,233 @@ button, select { font-family: inherit; cursor: pointer; }
 }
 .jstep.j-tb .jarr { background: #dbeafe; border-color: #bfdbfe; color: #1d4ed8; }
 
+/* Journey — clickable TB steps */
+.jstep.j-clickable {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  cursor: pointer;
+  text-align: left;
+  border: none;
+  font: inherit;
+  color: inherit;
+  transition: box-shadow .15s, transform .1s;
+}
+.jstep.j-clickable:hover { box-shadow: inset 0 0 0 1px rgba(251,191,36,.45); }
+.jstep.j-clickable:focus-visible { outline: 2px solid #fbbf24; outline-offset: 2px; }
+.jstep.j-disabled {
+  cursor: not-allowed;
+  opacity: .72;
+  filter: grayscale(0.25);
+}
+.jstep.j-active {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+  border-right-color: #fde68a !important;
+  outline: 2px solid #fbbf24;
+  outline-offset: -2px;
+  box-shadow: inset 0 0 0 1px rgba(251,191,36,.35);
+}
+.jstep.j-active .jlabel { color: #92400e !important; }
+.jstep.j-active .jsub { color: #78350f; }
+.jstep.j-active .jown { background: #fde68a !important; color: #92400e !important; }
+.jstep.j-active .jarr { background: #fef3c7 !important; border-color: #fde68a !important; color: #b45309 !important; }
+
+/* Module layout — forms & outputs */
+.mod-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 1.25rem;
+  align-items: start;
+}
+@media (max-width: 960px) { .mod-grid { grid-template-columns: 1fr; } }
+.mod-h {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--txt-secondary);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--bdr-tertiary);
+}
+.fi { margin-bottom: 12px; }
+.fi label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--txt-secondary);
+  margin-bottom: 4px;
+}
+.fi input[type="text"],
+.fi input[type="number"],
+.fi input[type="date"],
+.fi select,
+.fi textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  background: var(--bg-primary);
+}
+.fi textarea { min-height: 64px; resize: vertical; }
+.fi-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fi-row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.chk-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+.chk-row label { display: flex; align-items: center; gap: 6px; font-weight: 500; color: var(--txt-primary); cursor: pointer; }
+.chk-row input { width: auto; }
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--r-md);
+  border: none;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(29,78,216,.35);
+  transition: transform .1s, box-shadow .15s;
+}
+.btn-primary:hover { box-shadow: 0 4px 16px rgba(29,78,216,.45); }
+.btn-primary:active { transform: scale(.98); }
+.btn-primary:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--bdr-secondary);
+  background: var(--bg-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--txt-primary);
+  cursor: pointer;
+}
+.btn-secondary:hover { background: var(--bdr-secondary); }
+
+.upload-zone {
+  border: 2px dashed var(--bdr-secondary);
+  border-radius: var(--r-md);
+  padding: 14px 12px;
+  text-align: center;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  position: relative;
+}
+.upload-zone:hover, .upload-zone.drag { border-color: #3b82f6; background: var(--bg-info); }
+.upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.upload-zone .uz-title { font-weight: 600; font-size: 12px; }
+.upload-zone .uz-sub { font-size: 11px; color: var(--txt-secondary); margin-top: 4px; }
+.upload-zone.has-file { border-style: solid; border-color: var(--bdr-success); background: var(--bg-success); }
+
+.ac-list {
+  position: absolute;
+  left: 0; right: 0; top: 100%;
+  margin-top: 4px;
+  background: var(--bg-primary);
+  border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-float);
+  max-height: 180px;
+  overflow-y: auto;
+  z-index: 50;
+  display: none;
+}
+.ac-list.open { display: block; }
+.ac-item {
+  padding: 8px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--bdr-tertiary);
+}
+.ac-item:hover { background: var(--bg-info); }
+.ac-wrap { position: relative; }
+
+.spinner-wrap {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  justify-content: center;
+  color: var(--txt-info);
+  font-size: 12px;
+  font-weight: 600;
+}
+.spinner-wrap.on { display: flex; }
+.spinner {
+  width: 22px; height: 22px;
+  border: 3px solid var(--bdr-info);
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.result-block {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .35s ease, transform .35s ease;
+  pointer-events: none;
+}
+.result-block.on {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.table-mini { width: 100%; font-size: 12px; border-collapse: collapse; margin: 8px 0; }
+.table-mini th, .table-mini td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--bdr-tertiary); }
+.table-mini th { font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--txt-secondary); }
+.table-mini tr.best { background: linear-gradient(90deg, rgba(34,197,94,.08), transparent); }
+.table-mini tr.best td:first-child { font-weight: 700; color: var(--txt-success); }
+
+.json-pre {
+  font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 12px;
+  border-radius: var(--r-md);
+  max-height: 280px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.json-key { color: #7dd3fc; }
+.json-str { color: #86efac; }
+.json-num { color: #fcd34d; }
+
+.doc-check { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; font-size: 12px; border-bottom: 1px solid var(--bdr-tertiary); }
+.doc-check:last-child { border-bottom: none; }
+
+.banner-success {
+  display: none;
+  padding: 12px 14px;
+  border-radius: var(--r-md);
+  background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+  border: 1px solid var(--bdr-success);
+  font-size: 12px;
+  color: #065f46;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+.banner-success.on { display: block; }
+
+.radio-row { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.radio-row label { display: flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; }
+
+.bar-black { background: linear-gradient(90deg,#1e293b,#0f172a); }
+
 /* ── Page wrapper ───────────────────────────────────── */
 .pw { max-width: 1280px; margin: 0 auto; padding: 1rem 2rem 3rem; }
 
@@ -368,35 +595,35 @@ button, select { font-family: inherit; cursor: pointer; }
 <!-- ══ Import journey banner ════════════════════════════ -->
 <div class="jb">
   <div class="jtrack">
-    <div class="jstep j-tb">
+    <button type="button" class="jstep j-tb j-clickable" id="jstep-1" onclick="selectJStep(1,this)">
       <div class="jlabel">1. Pre-trade</div>
       <div class="jsub">ประเมินต้นทุนก่อนสั่งซื้อ<br>Scenario &amp; FTA comparison</div>
       <span class="jown own-tb">Tradebridge เท่านั้น</span>
       <div class="jarr">›</div>
-    </div>
-    <div class="jstep j-sh">
+    </button>
+    <button type="button" class="jstep j-tb j-clickable" id="jstep-2" onclick="selectJStep(2,this)">
       <div class="jlabel">2. Document Prep</div>
       <div class="jsub">Broker รับเอกสาร<br>ตรวจสอบ pre-flight</div>
-      <span class="jown own-sh">TB + Broker</span>
+      <span class="jown own-tb">TB + Broker</span>
       <div class="jarr">›</div>
-    </div>
-    <div class="jstep j-sh">
+    </button>
+    <div class="jstep j-sh j-disabled" title="ขั้นตอนนี้ดำเนินการใน TCS/NSW — ไม่ใช่โมดูลของ Tradebridge">
       <div class="jlabel">3. TCS Filing</div>
       <div class="jsub">ยื่น กศก.99/1 ผ่าน NSW<br>ชำระอากร e-Payment</div>
       <span class="jown own-sh">TCS / NSW</span>
       <div class="jarr">›</div>
     </div>
-    <div class="jstep j-sh">
+    <div class="jstep j-sh j-disabled" title="ขั้นตอนนี้ดำเนินการที่กรมศุลกากร — ไม่ใช่โมดูลของ Tradebridge">
       <div class="jlabel">4. Customs Clearance</div>
       <div class="jsub">ตรวจสอบ Green/Red Line<br>Release สินค้า</div>
       <span class="jown own-sh">กรมศุลกากร</span>
       <div class="jarr">›</div>
     </div>
-    <div class="jstep j-an">
+    <button type="button" class="jstep j-an j-clickable" id="jstep-5" onclick="selectJStep(5,this)">
       <div class="jlabel">5. Analytics &amp; Compliance</div>
       <div class="jsub">ข้อมูลจริงเข้า TB Intelligence DB<br>CBAM · FTA performance · Post-audit</div>
       <span class="jown own-an">Tradebridge เท่านั้น</span>
-    </div>
+    </button>
   </div>
 </div>
 
@@ -421,10 +648,11 @@ button, select { font-family: inherit; cursor: pointer; }
 
   <!-- tabs -->
   <div class="tabs">
-    <button class="tab active" onclick="switchTab('overview',this)">ภาพรวม</button>
-    <button class="tab" onclick="switchTab('pretrade',this)">Pre-trade Intelligence</button>
-    <button class="tab" onclick="switchTab('compliance',this)">Compliance &amp; FTA</button>
-    <button class="tab" onclick="switchTab('vs',this)">TB vs TCS</button>
+    <button type="button" class="tab active" onclick="switchTab('overview',this)">ภาพรวม</button>
+    <button type="button" class="tab" onclick="switchTab('pretrade',this)">Pre-trade Intelligence</button>
+    <button type="button" class="tab" onclick="switchTab('docprep',this)">Document Prep</button>
+    <button type="button" class="tab" onclick="switchTab('compliance',this)">Compliance &amp; FTA</button>
+    <button type="button" class="tab" onclick="switchTab('vs',this)">TB vs TCS</button>
   </div>
 
   <!-- ── PANEL: ภาพรวม ─────────────────────────────── -->
@@ -610,79 +838,292 @@ button, select { font-family: inherit; cursor: pointer; }
         <div class="metric-sub">vs actual (247 samples)</div>
       </div>
       <div class="metric">
-        <div class="metric-label">Error Prevention</div>
-        <div class="metric-val">8</div>
-        <div class="metric-sub">ครั้งที่ระบบ flag ก่อนยื่น</div>
+        <div class="metric-label">อัตราแลกเปลี่ยน (จำลอง)</div>
+        <div class="metric-val" id="pt-rate-display">฿33.25</div>
+        <div class="metric-sub">USD/THB · อัปเดตเมื่อวิเคราะห์</div>
       </div>
     </div>
-    <div class="row2">
+
+    <div class="mod-grid">
       <div class="card">
-        <div class="card-title">Scenario Comparison — ก่อนสั่งซื้อ</div>
-        <div style="font-size:12px;color:var(--txt-secondary);margin-bottom:14px;font-weight:500">สินค้า: เสื้อผ้า HS 6109.10 | Invoice $20,000 USD</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
-          <div style="border:2px solid var(--bdr-info);border-radius:var(--r-md);padding:14px;background:linear-gradient(135deg,#eff6ff,#dbeafe)">
-            <div style="font-size:10px;font-weight:700;color:var(--txt-info);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">★ แนะนำ</div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:4px">จีน + ACFTA</div>
-            <div style="font-size:11px;color:var(--txt-secondary)">อากร: <strong style="color:var(--txt-success)">0%</strong></div>
-            <div style="font-size:22px;font-weight:700;color:var(--txt-success);margin-top:8px">฿724K</div>
+        <div class="mod-h">Module 1 — Pre-trade · ข้อมูลนำเข้า</div>
+        <div class="fi ac-wrap">
+          <label for="pt-query">ชื่อสินค้า หรือ HS Code</label>
+          <input type="text" id="pt-query" placeholder="เช่น เสื้อผ้า knit / 6109.10 / smartphone" autocomplete="off" oninput="onPtQueryInput(this)" onfocus="onPtQueryInput(this)" />
+          <div class="ac-list" id="pt-ac-list" role="listbox"></div>
+        </div>
+        <div class="fi-row2">
+          <div class="fi">
+            <label for="pt-origin">ประเทศต้นทาง</label>
+            <select id="pt-origin">
+              <option value="CN">จีน (CN)</option>
+              <option value="VN">เวียดนาม (VN)</option>
+              <option value="JP">ญี่ปุ่น (JP)</option>
+              <option value="US">สหรัฐฯ (US)</option>
+              <option value="EU">สหภาพยุโรป (EU)</option>
+            </select>
           </div>
-          <div style="border:1px solid var(--bdr-secondary);border-radius:var(--r-md);padding:14px;background:var(--bg-secondary)">
-            <div style="font-size:10px;font-weight:700;color:var(--txt-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">ทางเลือก</div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:4px">เวียดนาม + AFTA</div>
-            <div style="font-size:11px;color:var(--txt-secondary)">อากร: <strong>0%</strong></div>
-            <div style="font-size:22px;font-weight:700;margin-top:8px">฿756K</div>
-          </div>
-          <div style="border:1px solid var(--bdr-danger);border-radius:var(--r-md);padding:14px;background:var(--bg-danger)">
-            <div style="font-size:10px;font-weight:700;color:var(--txt-danger);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">MFN</div>
-            <div style="font-weight:600;font-size:13px;margin-bottom:4px">สหรัฐฯ</div>
-            <div style="font-size:11px;color:var(--txt-secondary)">อากร: <strong style="color:var(--txt-danger)">30%</strong></div>
-            <div style="font-size:22px;font-weight:700;color:var(--txt-danger);margin-top:8px">฿1,032K</div>
+          <div class="fi">
+            <label for="pt-incoterm">Incoterms</label>
+            <select id="pt-incoterm">
+              <option>FOB</option>
+              <option>CIF</option>
+              <option>CFR</option>
+              <option>EXW</option>
+              <option>DDP</option>
+            </select>
           </div>
         </div>
-        <div class="tcs-note" style="margin-top:12px"><span>TCS:</span> ไม่มี scenario comparison — รู้ราคาหลังนำเข้าแล้วเท่านั้น</div>
+        <div class="fi-row3">
+          <div class="fi">
+            <label for="pt-cif">มูลค่า CIF โดยประมาณ (USD)</label>
+            <input type="number" id="pt-cif" value="20000" min="0" step="100" />
+          </div>
+          <div class="fi">
+            <label for="pt-qty">จำนวน</label>
+            <input type="number" id="pt-qty" value="1200" min="1" />
+          </div>
+          <div class="fi">
+            <label for="pt-unit">หน่วย</label>
+            <select id="pt-unit"><option>ชิ้น</option><option>กก.</option><option>เซ็ต</option></select>
+          </div>
+        </div>
+        <div class="fi-row2">
+          <div class="fi">
+            <label for="pt-dest">ปลายทางในประเทศไทย</label>
+            <select id="pt-dest">
+              <option>กรุงเทพฯ / คลังสินค้าในเมือง</option>
+              <option>ท่าเรือแหลมฉบัง → ขนส่งภายใน</option>
+              <option>สนามบินสุวรรณภูมิ → ขนส่งภายใน</option>
+              <option>เชียงใหม่</option>
+              <option>ภูเก็ต</option>
+            </select>
+          </div>
+          <div class="fi">
+            <label for="pt-transport">ประเภทขนส่งหลัก</label>
+            <select id="pt-transport">
+              <option value="sea">เรือ (Sea)</option>
+              <option value="air">เครื่องบิน (Air)</option>
+              <option value="truck">รถบรรทุก (Truck / Cross-border)</option>
+            </select>
+          </div>
+        </div>
+        <div class="fi-row2">
+          <div class="fi">
+            <label for="pt-weight">น้ำหนักรวมโดยประมาณ (กก.)</label>
+            <input type="number" id="pt-weight" value="850" min="1" step="1" />
+          </div>
+          <div class="fi">
+            <label for="pt-importer">ประเภทผู้นำเข้า</label>
+            <select id="pt-importer">
+              <option>ทั่วไป (Normal)</option>
+              <option>BOI</option>
+            </select>
+          </div>
+        </div>
+        <div class="fi">
+          <label>ลักษณะพิเศษ</label>
+          <div class="chk-row">
+            <label><input type="checkbox" id="pt-haz" /> สินค้าอันตราย (Hazmat)</label>
+            <label><input type="checkbox" id="pt-ctrl" /> สินค้าควบคุม</label>
+            <label><input type="checkbox" id="pt-perish" /> สินค้าเน่าเสียง่าย</label>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+          <button type="button" class="btn-primary" id="pt-analyze-btn" onclick="runPretradeAnalysis()">วิเคราะห์ด้วย AI</button>
+          <span style="font-size:11px;color:var(--txt-secondary);align-self:center">ประมาณ 1.5 วินาที · ข้อมูลจำลองสำหรับ Demo</span>
+        </div>
+        <div class="tcs-note" style="margin-top:14px"><span>TCS:</span> ไม่มี pre-trade scenario — Tradebridge ครอบคลุมก่อนยื่นใบขน</div>
       </div>
+
       <div class="card">
-        <div class="card-title">HS Code Intelligence</div>
-        <div class="fta-row">
-          <div>
-            <div style="font-weight:600">8471.30 คอมพิวเตอร์</div>
-            <div style="font-size:11px;color:var(--txt-secondary)">247 actual samples</div>
-          </div>
-          <div style="text-align:right">
-            <span class="tag tag-green">อากร 0%</span>
-            <div class="confidence-bar" style="margin-top:6px;margin-left:auto"><div class="confidence-fill" style="width:98%"></div></div>
-            <div style="font-size:10px;color:var(--txt-secondary);margin-top:3px;font-weight:600">98% confidence</div>
-          </div>
+        <div class="mod-h">ผลลัพธ์ — AI Pre-trade Intelligence</div>
+        <div class="spinner-wrap" id="pt-spinner"><div class="spinner"></div><span>กำลังจับคู่ HS / คำนวณ FTA / ประเมินสายตรวจ…</span></div>
+        <div class="result-block" id="pt-result-wrap">
+          <p style="font-size:12px;color:var(--txt-secondary);line-height:1.55" id="pt-placeholder">กรอกข้อมูลด้านซ้ายแล้วกด <strong>วิเคราะห์ด้วย AI</strong> เพื่อดู HS ที่แนะนำ เปรียบเทียบ FTA โอกาสสายตรวจ และต้นทุนรวม (USD + THB)</p>
+          <div id="pt-result-body" style="display:none"></div>
         </div>
-        <div class="fta-row">
-          <div>
-            <div style="font-weight:600">6109.10 เสื้อผ้า</div>
-            <div style="font-size:11px;color:var(--txt-secondary)">43 actual samples</div>
-          </div>
-          <div style="text-align:right">
-            <span class="tag tag-warn">CV +9.2%</span>
-            <div class="confidence-bar" style="margin-top:6px;margin-left:auto"><div class="confidence-fill" style="width:71%;background:linear-gradient(90deg,#fbbf24,#d97706)"></div></div>
-            <div style="font-size:10px;color:var(--txt-secondary);margin-top:3px;font-weight:600">71% confidence</div>
-          </div>
-        </div>
-        <div class="fta-row">
-          <div>
-            <div style="font-weight:600">8517.12 โทรศัพท์</div>
-            <div style="font-size:11px;color:var(--txt-secondary)">12 actual samples</div>
-          </div>
-          <div style="text-align:right">
-            <span class="tag tag-red">Red 52%</span>
-            <div class="confidence-bar" style="margin-top:6px;margin-left:auto"><div class="confidence-fill" style="width:38%;background:linear-gradient(90deg,#f87171,#dc2626)"></div></div>
-            <div style="font-size:10px;color:var(--txt-secondary);margin-top:3px;font-weight:600">38% confidence</div>
-          </div>
-        </div>
-        <button class="abtn abtn-full" onclick="sendPrompt('อธิบาย confidence score ของ Tradebridge คำนวณอย่างไรจาก actual data')">ดูวิธีคำนวณ Confidence Score ↗</button>
+        <button type="button" class="abtn abtn-full" style="margin-top:12px" onclick="sendPrompt('อธิบาย confidence score และ Red Line prediction ของ Tradebridge จาก TB Intelligence DB')">ถาม AI เพิ่มเติม ↗</button>
       </div>
     </div>
   </div><!-- /p-pretrade -->
 
+  <!-- ── PANEL: Document Prep ──────────────────────── -->
+  <div class="panel" id="p-docprep">
+    <div class="mod-grid">
+      <div class="card">
+        <div class="mod-h">Module 2 — Document Prep · อัปโหลดและข้อมูลเที่ยวเรือ</div>
+        <div class="fi-row2">
+          <div class="fi">
+            <label>ใบแจ้งหนี้การค้า (Commercial Invoice)</label>
+            <div class="upload-zone" id="uz-inv" data-key="invoice"><input type="file" accept=".pdf,.png,.jpg" onchange="markUpload(this)" /><div class="uz-title">ลากไฟล์หรือคลิก</div><div class="uz-sub">PDF / รูป — สูงสุด 15MB</div></div>
+          </div>
+          <div class="fi">
+            <label>Packing List</label>
+            <div class="upload-zone" id="uz-pl" data-key="packing"><input type="file" accept=".pdf,.png,.jpg,.xlsx" onchange="markUpload(this)" /><div class="uz-title">ลากไฟล์หรือคลิก</div><div class="uz-sub">รายการบรรจุภัณฑ์ น้ำหนัก มิติ</div></div>
+          </div>
+        </div>
+        <div class="fi-row2">
+          <div class="fi">
+            <label>B/L หรือ AWB</label>
+            <div class="upload-zone" id="uz-bl" data-key="bl"><input type="file" accept=".pdf" onchange="markUpload(this)" /><div class="uz-title">Bill of Lading / Air Waybill</div><div class="uz-sub">PDF</div></div>
+          </div>
+          <div class="fi">
+            <label>ใบถิ่นกำเนิด (Form E / D / RCEP)</label>
+            <div class="upload-zone" id="uz-coo" data-key="coo"><input type="file" accept=".pdf,.jpg,.png" onchange="markUpload(this)" /><div class="uz-title">Certificate of Origin</div><div class="uz-sub">ถ้ามี FTA claim</div></div>
+          </div>
+        </div>
+        <div class="fi">
+          <label>กรมธรรม์ประกันภัย (ถ้ามี)</label>
+          <div class="upload-zone" id="uz-ins" data-key="insurance"><input type="file" accept=".pdf" onchange="markUpload(this)" /><div class="uz-title">Insurance Certificate</div><div class="uz-sub">ไม่บังคับ — ช่วย valuation check</div></div>
+        </div>
+        <div class="fi-row2">
+          <div class="fi">
+            <label for="dp-pol">POL (ท่า/สนามบินต้นทาง)</label>
+            <input type="text" id="dp-pol" placeholder="เช่น CNSHA — Shanghai" value="CNSHA — Shanghai" />
+          </div>
+          <div class="fi">
+            <label for="dp-pod">POD (ท่า/สนามบินปลายทาง)</label>
+            <input type="text" id="dp-pod" placeholder="เช่น THLCH — Laem Chabang" value="THLCH — Laem Chabang" />
+          </div>
+        </div>
+        <div class="fi-row3">
+          <div class="fi">
+            <label for="dp-vessel">ชื่อเรือ / เที่ยวบิน / ทะเบียนรถ</label>
+            <input type="text" id="dp-vessel" value="MV TRADEBRIDGE 88" />
+          </div>
+          <div class="fi">
+            <label for="dp-eta">ETA</label>
+            <input type="date" id="dp-eta" value="2026-05-15" />
+          </div>
+          <div class="fi">
+            <label for="dp-rate">อัตราแลกบน Invoice</label>
+            <input type="number" id="dp-rate" value="33.25" step="0.01" />
+          </div>
+        </div>
+        <div class="fi-row2">
+          <div class="fi">
+            <label for="dp-tin">เลขประจำตัวผู้เสียภาษีผู้นำเข้า</label>
+            <input type="text" id="dp-tin" placeholder="13 หลัก" value="0105559123456" />
+          </div>
+          <div class="fi">
+            <label for="dp-broker">รหัสตัวแทนศุลกากร</label>
+            <input type="text" id="dp-broker" value="BRK-TB-001" />
+          </div>
+        </div>
+        <div class="fi">
+          <label for="dp-container">หมายเลขตู้คอนเทนเนอร์ / Seal</label>
+          <input type="text" id="dp-container" value="MSKU1234567 / SEAL998877" />
+        </div>
+        <button type="button" class="btn-primary" id="dp-process-btn" onclick="processDocuments()">ประมวลผลเอกสารด้วย AI</button>
+      </div>
+
+      <div class="card">
+        <div class="mod-h">ผลลัพธ์ — Pre-flight &amp; NSP Payload</div>
+        <div class="spinner-wrap" id="dp-spinner"><div class="spinner"></div><span>OCR + cross-check + สร้าง JSON สำหรับ NSP…</span></div>
+        <div id="dp-output" style="display:none">
+          <div class="card-title" style="margin-top:0">สถานะเอกสาร</div>
+          <div id="dp-doc-checks"></div>
+          <div class="fi" style="margin-top:12px">
+            <div style="font-size:11px;font-weight:700;color:var(--txt-secondary);text-transform:uppercase;margin-bottom:6px">สรุป Pre-flight</div>
+            <div id="dp-preflight" style="font-size:12px;color:var(--txt-primary);line-height:1.55"></div>
+          </div>
+          <div class="cost-row" style="margin-top:10px"><span class="cost-label">Duty preview (ก่อนยื่น NSP)</span><span class="cost-val" id="dp-duty-preview">—</span></div>
+          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn-secondary" onclick="copyNsJson()">คัดลอก JSON</button>
+            <button type="button" class="btn-secondary" onclick="simulatePdfDownload()">สร้าง PDF สรุป (Mock)</button>
+          </div>
+          <div class="card-title" style="margin-top:16px">JSON — พร้อมส่ง NSP API (แสดงก่อนส่งจริง)</div>
+          <pre class="json-pre" id="dp-json-pre" role="region" aria-label="NSP JSON preview"></pre>
+        </div>
+        <p style="font-size:12px;color:var(--txt-secondary);margin-top:10px" id="dp-placeholder">อัปโหลดเอกสารและกด <strong>ประมวลผลเอกสารด้วย AI</strong> เพื่อดู checklist, duty preview และ JSON</p>
+      </div>
+    </div>
+  </div><!-- /p-docprep -->
+
   <!-- ── PANEL: Compliance ─────────────────────────── -->
   <div class="panel" id="p-compliance">
+    <div class="card" style="margin-bottom:1.25rem">
+      <div class="mod-h">Module 5 — Post-clearance / NSP Feedback → TB Intelligence DB</div>
+      <div id="tb-save-banner" class="banner-success" role="status"></div>
+      <div class="fi-row2">
+        <div class="fi">
+          <label>ผลสายตรวจจริงจาก NSP / ศุลกากร</label>
+          <div class="radio-row" id="pc-line-group">
+            <label><input type="radio" name="pc_line" value="green" checked /> Green</label>
+            <label><input type="radio" name="pc_line" value="yellow" /> Yellow</label>
+            <label><input type="radio" name="pc_line" value="red" /> Red</label>
+            <label><input type="radio" name="pc_line" value="black" /> Black</label>
+          </div>
+        </div>
+        <div class="fi">
+          <label for="pc-delay">เหตุผลความล่าช้า (ถ้า Red/Black)</label>
+          <select id="pc-delay">
+            <option value="">— ไม่มี —</option>
+            <option>Under-valuation / CV adjustment</option>
+            <option>HS mismatch / classification query</option>
+            <option>เอกสารไม่ครบ</option>
+            <option>สุ่มตรวจ / Random inspection</option>
+          </select>
+        </div>
+      </div>
+      <div class="fi-row3">
+        <div class="fi">
+          <label for="pc-duty">อากรที่ชำระจริง (฿)</label>
+          <input type="number" id="pc-duty" value="482000" step="1000" />
+        </div>
+        <div class="fi">
+          <label for="pc-clear-date">วันที่ปล่อย/เคลียร์จริง</label>
+          <input type="date" id="pc-clear-date" value="2026-04-28" />
+        </div>
+        <div class="fi">
+          <label for="pc-est-duty">อากรที่ Pre-trade ประเมินไว้ (฿)</label>
+          <input type="number" id="pc-est-duty" value="468000" step="1000" />
+        </div>
+      </div>
+      <div class="fi-row2">
+        <div class="fi">
+          <label for="pc-freight">Freight + Insurance จริง (฿)</label>
+          <input type="number" id="pc-freight" value="312000" step="1000" />
+        </div>
+        <div class="fi">
+          <label for="pc-port">ค่าท่า / THC / Handling (฿)</label>
+          <input type="number" id="pc-port" value="28500" step="500" />
+        </div>
+      </div>
+      <div class="fi-row3">
+        <div class="fi">
+          <label for="pc-lastmile">ขนส่งภายในประเทศ (฿)</label>
+          <input type="number" id="pc-lastmile" value="18500" step="500" />
+        </div>
+        <div class="fi">
+          <label for="pc-shipline">สายเรือ / สายการบิน</label>
+          <input type="text" id="pc-shipline" value="Maersk Line" />
+        </div>
+        <div class="fi">
+          <label for="pc-dist">ระยะทางขนส่ง (km)</label>
+          <input type="number" id="pc-dist" value="8420" step="10" />
+        </div>
+      </div>
+      <div class="fi-row2">
+        <div class="fi">
+          <label for="pc-weight2">น้ำหนักรวม (กก.) — CBAM</label>
+          <input type="number" id="pc-weight2" value="850" step="1" />
+        </div>
+        <div class="fi">
+          <label for="pc-fta-result">ผล FTA จริง</label>
+          <select id="pc-fta-result">
+            <option>Accepted — Form E</option>
+            <option>Accepted — Form D</option>
+            <option>Accepted — RCEP</option>
+            <option>Rejected — pending docs</option>
+          </select>
+        </div>
+      </div>
+      <button type="button" class="btn-primary" onclick="saveToTBDB()">บันทึกลง Tradebridge Intelligence DB</button>
+      <p style="font-size:11px;color:var(--txt-secondary);margin-top:10px">ข้อมูลจะถูกใช้ปรับความแม่นยำของ Pre-trade และ Red Line model (demo — ไม่มี backend)</p>
+    </div>
+
     <div class="metrics">
       <div class="metric">
         <div class="metric-label">FTA Savings YTD</div>
@@ -817,7 +1258,7 @@ button, select { font-family: inherit; cursor: pointer; }
 
 <!-- ══ Modal ════════════════════════════════════════════ -->
 <div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal">
+  <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-head">
       <div class="modal-icon">🤖</div>
       <div>
@@ -841,23 +1282,373 @@ button, select { font-family: inherit; cursor: pointer; }
 </footer>
 
 <script>
-function switchTab(id, el) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('p-' + id).classList.add('active');
-}
-function filterPeriod(v) { console.log('filter', v); }
-function sendPrompt(text) {
-  document.getElementById('modal-qtext').textContent = text;
-  document.getElementById('modal-overlay').classList.add('open');
-}
-function closeModal(event) {
-  if (!event || event.target === document.getElementById('modal-overlay')) {
-    document.getElementById('modal-overlay').classList.remove('open');
+(function () {
+  var PT_HS = [
+    { q: '6109', hs: '6109.10.00', name: 'เสื้อผ้า knit — T-shirt / jersey', conf: 96 },
+    { q: 'เสื้อ', hs: '6109.10.00', name: 'เสื้อผ้าและเครื่องนุ่งห่ม (knit)', conf: 91 },
+    { q: '8517', hs: '8517.12.00', name: 'โทรศัพท์มือถือ / smartphone', conf: 94 },
+    { q: 'phone', hs: '8517.12.00', name: 'โทรศัพท์มือถือ', conf: 89 },
+    { q: '8471', hs: '8471.30.00', name: 'คอมพิวเตอร์น้ำหนัก ≤ 10 kg', conf: 98 },
+    { q: 'laptop', hs: '8471.30.00', name: 'แล็ปท็อป / portable PC', conf: 97 },
+    { q: '2710', hs: '2710.12.20', name: 'น้ำมันดีเซล / light oils', conf: 88 }
+  ];
+
+  window.switchTab = function (id, el) {
+    document.querySelectorAll('.tab').forEach(function (t) { t.classList.remove('active'); });
+    document.querySelectorAll('.panel').forEach(function (p) { p.classList.remove('active'); });
+    if (el) el.classList.add('active');
+    document.getElementById('p-' + id).classList.add('active');
+    syncJourneyFromTab(id);
+  };
+
+  function syncJourneyFromTab(tabId) {
+    document.querySelectorAll('.jstep.j-clickable').forEach(function (s) {
+      s.classList.remove('j-active');
+      s.removeAttribute('aria-current');
+    });
+    var map = { pretrade: 'jstep-1', docprep: 'jstep-2', compliance: 'jstep-5' };
+    var bid = map[tabId];
+    if (bid) {
+      var b = document.getElementById(bid);
+      if (b) {
+        b.classList.add('j-active');
+        b.setAttribute('aria-current', 'step');
+      }
+    }
   }
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  window.selectJStep = function (n, el) {
+    var panelMap = { 1: 'pretrade', 2: 'docprep', 5: 'compliance' };
+    var pid = panelMap[n];
+    if (!pid) return;
+    var tabBtn = null;
+    document.querySelectorAll('.tabs .tab').forEach(function (t) {
+      var oc = t.getAttribute('onclick') || '';
+      if (oc.indexOf("'" + pid + "'") !== -1) tabBtn = t;
+    });
+    switchTab(pid, tabBtn);
+  };
+
+  window.filterPeriod = function (v) { console.log('filter', v); };
+
+  window.sendPrompt = function (text) {
+    document.getElementById('modal-qtext').textContent = text;
+    document.getElementById('modal-overlay').classList.add('open');
+  };
+
+  window.closeModal = function (event) {
+    if (!event || event.target === document.getElementById('modal-overlay')) {
+      document.getElementById('modal-overlay').classList.remove('open');
+    }
+  };
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  function thb(n) {
+    return '฿' + Math.round(n).toLocaleString('th-TH');
+  }
+
+  window.onPtQueryInput = function (inp) {
+    var v = (inp.value || '').trim().toLowerCase();
+    var list = document.getElementById('pt-ac-list');
+    if (!v) {
+      list.classList.remove('open');
+      list.innerHTML = '';
+      return;
+    }
+    var hits = PT_HS.filter(function (r) {
+      return r.q.indexOf(v) !== -1 || v.indexOf(r.q) !== -1 || r.hs.indexOf(v) !== -1 || r.name.toLowerCase().indexOf(v) !== -1;
+    }).slice(0, 6);
+    if (!hits.length) {
+      list.innerHTML = '<div class="ac-item" style="color:var(--txt-secondary)">ไม่พบคำแนะนำ — ลองพิมพ์ HS เช่น 6109 หรือ "เสื้อ"</div>';
+      list.classList.add('open');
+      return;
+    }
+    list.innerHTML = hits.map(function (h, idx) {
+      return '<div class="ac-item" role="option" data-hs="' + h.hs + '" data-name="' + h.name.replace(/"/g, '&quot;') + '" data-idx="' + idx + '"><strong>' + h.hs + '</strong> — ' + h.name + ' <span style="color:var(--txt-secondary)">(' + h.conf + '%)</span></div>';
+    }).join('');
+    list.classList.add('open');
+  };
+
+  window.pickPtAc = function (hs, name) {
+    document.getElementById('pt-query').value = hs + ' — ' + name;
+    document.getElementById('pt-ac-list').classList.remove('open');
+  };
+
+  document.addEventListener('click', function (e) {
+    var item = e.target.closest && e.target.closest('.ac-item[data-hs]');
+    if (item) {
+      pickPtAc(item.getAttribute('data-hs'), item.getAttribute('data-name'));
+      return;
+    }
+    if (!e.target.closest || !e.target.closest('.ac-wrap')) {
+      var al = document.getElementById('pt-ac-list');
+      if (al) al.classList.remove('open');
+    }
+  });
+
+  function resolveHsFromQuery(q) {
+    var s = (q || '').toLowerCase();
+    var m = s.match(/\d{4}\.\d{2}/);
+    if (m) return { hs: m[0] + '.00', name: 'สินค้าตาม HS ที่ระบุ', alts: [{ hs: m[0] + '.10', conf: 72 }, { hs: m[0] + '.00', conf: 94 }] };
+    for (var i = 0; i < PT_HS.length; i++) {
+      if (s.indexOf(PT_HS[i].q) !== -1 || PT_HS[i].name.toLowerCase().indexOf(s) !== -1)
+        return { hs: PT_HS[i].hs, name: PT_HS[i].name, alts: [{ hs: PT_HS[i].hs, conf: PT_HS[i].conf }, { hs: PT_HS[i].hs.replace(/\d$/, '1'), conf: 68 }] };
+    }
+    return { hs: '6109.10.00', name: 'เสื้อผ้า (default demo)', alts: [{ hs: '6109.10.00', conf: 88 }, { hs: '6109.90.00', conf: 62 }] };
+  }
+
+  window.runPretradeAnalysis = function () {
+    var btn = document.getElementById('pt-analyze-btn');
+    var spin = document.getElementById('pt-spinner');
+    var wrap = document.getElementById('pt-result-wrap');
+    var body = document.getElementById('pt-result-body');
+    var ph = document.getElementById('pt-placeholder');
+    btn.disabled = true;
+    spin.classList.add('on');
+    wrap.classList.remove('on');
+    body.style.display = 'none';
+    ph.style.display = 'block';
+
+    setTimeout(function () {
+      var rate = 33.15 + Math.random() * 0.2;
+      document.getElementById('pt-rate-display').textContent = '฿' + rate.toFixed(2);
+
+      var q = document.getElementById('pt-query').value;
+      var origin = document.getElementById('pt-origin').value;
+      var cif = parseFloat(document.getElementById('pt-cif').value) || 0;
+      var w = parseFloat(document.getElementById('pt-weight').value) || 1;
+      var trans = document.getElementById('pt-transport').value;
+      var dest = document.getElementById('pt-dest').value;
+      var haz = document.getElementById('pt-haz').checked;
+      var ctrl = document.getElementById('pt-ctrl').checked;
+      var perish = document.getElementById('pt-perish').checked;
+
+      var res = resolveHsFromQuery(q);
+      var ftaRows = [];
+      var best = '';
+      if (origin === 'CN') {
+        ftaRows.push({ name: 'ACFTA (Form E)', duty: 0, totalThb: cif * rate * 1.07 + w * 42 + (trans === 'air' ? 85000 : 22000) });
+        ftaRows.push({ name: 'RCEP', duty: 0, totalThb: cif * rate * 1.07 + w * 42 + (trans === 'air' ? 82000 : 21000) });
+        ftaRows.push({ name: 'MFN', duty: 30, totalThb: cif * rate * 1.37 + w * 42 + (trans === 'air' ? 85000 : 22000) });
+        best = 'ACFTA (Form E)';
+      } else if (origin === 'VN') {
+        ftaRows.push({ name: 'AFTA (Form D)', duty: 0, totalThb: cif * rate * 1.07 + w * 38 + 20000 });
+        ftaRows.push({ name: 'RCEP', duty: 0, totalThb: cif * rate * 1.07 + w * 38 + 19500 });
+        ftaRows.push({ name: 'MFN', duty: 18, totalThb: cif * rate * 1.25 + w * 38 + 20000 });
+        best = 'AFTA (Form D)';
+      } else if (origin === 'JP') {
+        ftaRows.push({ name: 'RCEP', duty: 0, totalThb: cif * rate * 1.07 + w * 55 + 28000 });
+        ftaRows.push({ name: 'MFN', duty: 12, totalThb: cif * rate * 1.19 + w * 55 + 28000 });
+        best = 'RCEP';
+      } else {
+        ftaRows.push({ name: 'MFN', duty: 30, totalThb: cif * rate * 1.37 + w * 48 + 35000 });
+        ftaRows.push({ name: 'WTO concession (if any)', duty: 15, totalThb: cif * rate * 1.22 + w * 48 + 35000 });
+        best = 'WTO concession (if any)';
+      }
+      ftaRows.sort(function (a, b) { return a.totalThb - b.totalThb; });
+      best = ftaRows[0].name;
+
+      var green = 62, yellow = 22, red = 12, black = 4;
+      if (res.hs.indexOf('8517') === 0) { green = 38; yellow = 28; red = 28; black = 6; }
+      if (haz || ctrl) { red += 8; yellow += 5; green -= 13; }
+      if (perish) { yellow += 6; green -= 6; }
+      var sum = green + yellow + red + black;
+      green = Math.round(green / sum * 100);
+      yellow = Math.round(yellow / sum * 100);
+      red = Math.round(red / sum * 100);
+      black = 100 - green - yellow - red;
+
+      var shipUsd = trans === 'air' ? cif * 0.045 : trans === 'sea' ? cif * 0.028 : cif * 0.022;
+      var inlandUsd = trans === 'air' ? 420 + w * 0.35 : 280 + w * 0.12;
+      var brokerUsd = 185;
+      var dutyUsd = (ftaRows[0].duty / 100) * cif;
+      var vatUsd = (cif + dutyUsd + shipUsd * 0.5) * 0.07;
+      var portUsd = 850 + w * 0.08;
+      var totalUsd = cif + dutyUsd + vatUsd + shipUsd + inlandUsd + portUsd / rate + brokerUsd;
+
+      var html = '';
+      html += '<div class="card-title" style="margin-top:0">HS ที่จับคู่</div>';
+      html += '<p style="font-size:13px;font-weight:600;margin-bottom:8px">' + res.hs + ' — ' + res.name + '</p>';
+      html += '<div style="font-size:11px;color:var(--txt-secondary);margin-bottom:10px">ทางเลือกอื่น: ' + res.alts.map(function (a) { return a.hs + ' (' + a.conf + '%)'; }).join(' · ') + '</div>';
+
+      html += '<div class="card-title">เปรียบเทียบ FTA / อากร</div>';
+      html += '<table class="table-mini"><thead><tr><th>เส้นทาง</th><th>อากร</th><th>Total est. (THB)</th></tr></thead><tbody>';
+      ftaRows.forEach(function (r) {
+        html += '<tr class="' + (r.name === best ? 'best' : '') + '"><td>' + r.name + (r.name === best ? ' ★' : '') + '</td><td>' + r.duty + '%</td><td>' + thb(r.totalThb) + '</td></tr>';
+      });
+      html += '</tbody></table>';
+      html += '<div class="tcs-note" style="margin-top:8px"><span>RoO:</span> ' + best + ' — ตรวจสอบ local content / direct consignment ตามความเสี่ยงสินค้า</div>';
+
+      html += '<div class="card-title">โอกาสสายตรวจ (ประมาณการ)</div>';
+      html += '<div class="progress-wrap"><div class="progress-label"><span>Green</span><span>' + green + '%</span></div><div class="progress-track"><div class="progress-bar bar-green" style="width:' + green + '%"></div></div></div>';
+      html += '<div class="progress-wrap"><div class="progress-label"><span>Yellow</span><span>' + yellow + '%</span></div><div class="progress-track"><div class="progress-bar bar-warn" style="width:' + yellow + '%"></div></div></div>';
+      html += '<div class="progress-wrap"><div class="progress-label"><span>Red</span><span>' + red + '%</span></div><div class="progress-track"><div class="progress-bar bar-red" style="width:' + red + '%"></div></div></div>';
+      html += '<div class="progress-wrap"><div class="progress-label"><span>Black</span><span>' + black + '%</span></div><div class="progress-track"><div class="progress-bar bar-black" style="width:' + black + '%"></div></div></div>';
+
+      html += '<div class="card-title">ต้นทุนโดยประมาณ (ไม่รวมราคาสินค้าที่แยก CIF แล้วในรายการ)</div>';
+      html += '<div class="cost-row"><span class="cost-label">CIF base</span><span class="cost-val">$' + cif.toLocaleString() + ' · ' + thb(cif * rate) + '</span></div>';
+      html += '<div class="cost-row"><span class="cost-label">Import duty (FTA)</span><span class="cost-val">$' + dutyUsd.toFixed(0) + ' · ' + thb(dutyUsd * rate) + '</span></div>';
+      html += '<div class="cost-row"><span class="cost-label">VAT นำเข้า (est.)</span><span class="cost-val">$' + vatUsd.toFixed(0) + ' · ' + thb(vatUsd * rate) + '</span></div>';
+      html += '<div class="cost-row"><span class="cost-label">Freight + Insurance (est.)</span><span class="cost-val">$' + shipUsd.toFixed(0) + ' · ' + thb(shipUsd * rate) + '</span></div>';
+      html += '<div class="cost-row"><span class="cost-label">Port / THC / handling</span><span class="cost-val">$' + (portUsd / rate).toFixed(0) + ' · ' + thb(portUsd) + '</span></div>';
+      html += '<div class="cost-row"><span class="cost-label">Inland (' + dest.split(' ')[0] + ')</span><span class="cost-val">$' + inlandUsd.toFixed(0) + ' · ' + thb(inlandUsd * rate) + '</span></div>';
+      html += '<div class="cost-row"><span class="cost-label">Customs broker (est.)</span><span class="cost-val">$' + brokerUsd + ' · ' + thb(brokerUsd * rate) + '</span></div>';
+      html += '<div class="cost-row"><span class="cost-label"><strong>Total landed (logistics + tax est.)</strong></span><span class="cost-val"><strong>$' + totalUsd.toFixed(0) + ' · ' + thb(totalUsd * rate) + '</strong></span></div>';
+
+      html += '<div class="card-title">Checklist ก่อนสั่งซื้อ</div>';
+      html += '<ul style="font-size:12px;color:var(--txt-secondary);line-height:1.65;padding-left:1.1rem">';
+      html += '<li>ขอ ' + (origin === 'CN' ? 'Form E' : origin === 'VN' ? 'Form D' : 'Form RCEP') + ' ล่วงหน้า + ตรวจ invoice description ให้ตรง HS</li>';
+      html += '<li>เตรียมเอกสารราคาเปรียบเทียบ (CV risk ' + (res.hs.indexOf('6109') === 0 ? 'ปานกลาง' : 'ต่ำ') + ')</li>';
+      html += '<li>แจ้ง forwarder: ' + trans + ' → ' + dest + '</li></ul>';
+
+      ph.style.display = 'none';
+      body.innerHTML = html;
+      body.style.display = 'block';
+      spin.classList.remove('on');
+      wrap.classList.add('on');
+      btn.disabled = false;
+    }, 1500);
+  };
+
+  var uploadState = { invoice: false, packing: false, bl: false, coo: false, insurance: false };
+
+  window.markUpload = function (inp) {
+    var z = inp.closest('.upload-zone');
+    if (!inp.files || !inp.files[0]) return;
+    uploadState[z.dataset.key] = true;
+    z.classList.add('has-file');
+    z.querySelector('.uz-title').textContent = inp.files[0].name;
+    z.querySelector('.uz-sub').textContent = (inp.files[0].size / 1024 / 1024).toFixed(2) + ' MB';
+  };
+
+  window.processDocuments = function () {
+    var btn = document.getElementById('dp-process-btn');
+    var spin = document.getElementById('dp-spinner');
+    var out = document.getElementById('dp-output');
+    var ph = document.getElementById('dp-placeholder');
+    btn.disabled = true;
+    spin.classList.add('on');
+    out.style.display = 'none';
+    ph.style.display = 'block';
+
+    setTimeout(function () {
+      var checks = [
+        { key: 'invoice', label: 'Commercial Invoice', ok: uploadState.invoice, note: uploadState.invoice ? 'OCR: seller, Incoterms, line items OK' : 'ยังไม่อัปโหลด' },
+        { key: 'packing', label: 'Packing List', ok: uploadState.packing, note: uploadState.packing ? 'น้ำหนักรวมสอดคล้องกับ B/L ±2%' : 'ยังไม่อัปโหลด' },
+        { key: 'bl', label: 'B/L / AWB', ok: uploadState.bl, note: uploadState.bl ? 'POL/POD ตรงกับฟอร์ม' : 'ยังไม่อัปโหลด' },
+        { key: 'coo', label: 'Certificate of Origin', ok: uploadState.coo, note: uploadState.coo ? 'Form E — signature verified (mock)' : 'แนะนำสำหรับ FTA claim' },
+        { key: 'insurance', label: 'Insurance', ok: uploadState.insurance, note: uploadState.insurance ? 'Coverage OK' : 'ไม่บังคับ' }
+      ];
+      var html = '';
+      checks.forEach(function (c) {
+        html += '<div class="doc-check"><span>' + c.label + '</span><span class="tag ' + (c.ok ? 'tag-green' : (c.key === 'insurance' ? 'tag-gray' : 'tag-red')) + '">' + (c.ok ? 'ผ่าน' : (c.key === 'insurance' ? 'ไม่มี' : 'ต้องแก้')) + '</span></div>';
+        html += '<div style="font-size:11px;color:var(--txt-secondary);margin:-4px 0 6px 0">' + c.note + '</div>';
+      });
+      document.getElementById('dp-doc-checks').innerHTML = html;
+
+      var issues = checks.filter(function (c) { return !c.ok && c.key !== 'insurance'; }).length;
+      document.getElementById('dp-preflight').innerHTML =
+        '<strong>Confidence:</strong> ' + (issues === 0 ? '96' : issues === 1 ? '84' : '72') + '% · ' +
+        '<strong>Issues:</strong> ' + issues + ' · Cross-check: invoice vs PL weight, HS vs product description, FTA form vs origin port';
+
+      var dutyPreview = issues === 0 ? '฿468,000 ± 3%' : '฿468,000 ± 8% (แก้เอกสารก่อนยื่น)';
+      document.getElementById('dp-duty-preview').textContent = dutyPreview;
+
+      var payload = {
+        nspVersion: '2.4-mock',
+        submissionId: 'TB-NSP-' + Date.now(),
+        importer: { tin: document.getElementById('dp-tin').value, brokerCode: document.getElementById('dp-broker').value },
+        shipment: {
+          pol: document.getElementById('dp-pol').value,
+          pod: document.getElementById('dp-pod').value,
+          vessel: document.getElementById('dp-vessel').value,
+          eta: document.getElementById('dp-eta').value,
+          container: document.getElementById('dp-container').value,
+          exchangeRateInvoice: parseFloat(document.getElementById('dp-rate').value) || 33.25
+        },
+        items: [
+          { lineNo: 1, hsCode: '6109.10.00', description: 'Men\'s T-shirt knit — cotton', qty: 1200, uom: 'PCS', unitPriceUSD: 16.67, netWeightKg: 820, originCountry: 'CN', ftaClaim: 'ACFTA', formReference: 'CN-FE-2026-88421' }
+        ],
+        valuation: { method: 'CIF', insuranceIncluded: true, assistsDeclared: false },
+        attachments: Object.keys(uploadState).filter(function (k) { return uploadState[k]; })
+      };
+      window._lastNsPayload = payload;
+      document.getElementById('dp-json-pre').innerHTML = highlightJson(JSON.stringify(payload, null, 2));
+
+      ph.style.display = 'none';
+      out.style.display = 'block';
+      spin.classList.remove('on');
+      btn.disabled = false;
+    }, 1200);
+  };
+
+  function highlightJson(str) {
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"(\\.|[^"\\])*"(?=\s*:)/g, '<span class="json-key">$&</span>')
+      .replace(/:\s*"(\\.|[^"\\])*"/g, function (m) { return ': <span class="json-str">' + m.slice(m.indexOf('"')) + '</span>'; })
+      .replace(/:\s*(\d+\.?\d*)([,}\n])/g, ': <span class="json-num">$1</span>$2');
+  }
+
+  window.copyNsJson = function () {
+    if (!window._lastNsPayload) return;
+    var t = JSON.stringify(window._lastNsPayload, null, 2);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(t).then(function () {
+        sendPrompt('คัดลอก JSON สำหรับ NSP API ไปยัง clipboard แล้ว (' + t.length + ' chars)');
+      });
+    } else sendPrompt(t.slice(0, 400) + '…');
+  };
+
+  window.simulatePdfDownload = function () {
+    sendPrompt('สร้าง PDF สรุปข้อมูลที่จะส่ง NSP แล้ว — ไฟล์: TB-NSP-Summary-' + new Date().toISOString().slice(0, 10) + '.pdf (mock download)');
+  };
+
+  window.saveToTBDB = function () {
+    var line = (document.querySelector('input[name="pc_line"]:checked') || {}).value || 'green';
+    var dutyAct = parseFloat(document.getElementById('pc-duty').value) || 0;
+    var dutyEst = parseFloat(document.getElementById('pc-est-duty').value) || 1;
+    var acc = Math.max(0, 100 - Math.abs(dutyAct - dutyEst) / dutyEst * 100);
+    acc = Math.min(99.9, acc);
+    var w = parseFloat(document.getElementById('pc-weight2').value) || 0;
+    var dist = parseFloat(document.getElementById('pc-dist').value) || 0;
+    var co2 = (w * 0.0028 * dist / 1000).toFixed(2);
+    var ban = document.getElementById('tb-save-banner');
+    ban.innerHTML =
+      '<strong>บันทึกสำเร็จ</strong> — TB Intelligence DB อัปเดตแล้ว · Record batch +1 · ' +
+      'ความแม่นยำเทียบประมาณการอากร: <strong>' + acc.toFixed(1) + '%</strong> · ' +
+      'สายตรวจ: <strong>' + line.toUpperCase() + '</strong> · ' +
+      'CO₂e สะสมจากเที่ยวนี้: <strong>' + co2 + ' t</strong> · ' +
+      'ผล FTA: ' + document.getElementById('pc-fta-result').value;
+    ban.classList.add('on');
+    setTimeout(function () { ban.classList.remove('on'); }, 8000);
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.upload-zone').forEach(function (z) {
+      z.addEventListener('dragover', function (e) { e.preventDefault(); z.classList.add('drag'); });
+      z.addEventListener('dragleave', function () { z.classList.remove('drag'); });
+      z.addEventListener('drop', function (e) {
+        e.preventDefault();
+        z.classList.remove('drag');
+        var f = e.dataTransfer.files && e.dataTransfer.files[0];
+        if (!f) return;
+        var inp = z.querySelector('input[type=file]');
+        try {
+          var dt = new DataTransfer();
+          dt.items.add(f);
+          inp.files = dt.files;
+        } catch (err) {}
+        markUpload(inp);
+      });
+    });
+  });
+})();
 </script>
 </body>
 </html>
