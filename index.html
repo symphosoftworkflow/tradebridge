@@ -1613,12 +1613,13 @@ button, select { font-family: inherit; cursor: pointer; }
       html += '<div style="font-size:11px;color:var(--txt-secondary);margin-bottom:10px">ทางเลือกอื่น: ' + res.alts.map(function (a) { return a.hs + ' (' + a.conf + '%)'; }).join(' · ') + '</div>';
 
       html += '<div class="card-title">เปรียบเทียบ FTA / อากร</div>';
-      html += '<table class="table-mini"><thead><tr><th>เส้นทาง</th><th>อากร</th><th>Total est. (THB)</th></tr></thead><tbody>';
+      html += '<table class="table-mini"><thead><tr><th>เส้นทาง</th><th>อากร</th><th style="cursor:help" title="อากรนำเข้า + VAT 7% + ค่าขนส่ง + ค่าธรรมเนียมเอกสาร/ใบรับรอง FTA">Total est. (THB) ⓘ</th></tr></thead><tbody>';
       ftaRows.forEach(function (r) {
         html += '<tr class="' + (r.name === best ? 'best' : '') + '"><td>' + r.name + (r.name === best ? ' ★' : '') + '</td><td>' + r.duty + '%</td><td>' + thb(r.totalThb) + '</td></tr>';
       });
       html += '</tbody></table>';
-      html += '<div class="tcs-note" style="margin-top:8px"><span>RoO:</span> ' + best + ' — ตรวจสอบ local content / direct consignment ตามความเสี่ยงสินค้า</div>';
+      html += '<div class="tcs-note" style="margin-top:8px;font-size:11px;color:var(--txt-secondary)">* Total est. รวม VAT 7% + ค่าขนส่ง + ค่าธรรมเนียมเอกสาร/ใบรับรอง FTA — อากร 0% เหมือนกันแต่ต้นทุนรวมต่างกันเนื่องจากค่าใช้จ่ายด้านเอกสารแต่ละเส้นทางไม่เท่ากัน</div>';
+      html += '<div class="tcs-note" style="margin-top:4px"><span>RoO:</span> ' + best + ' — ตรวจสอบ local content / direct consignment ตามความเสี่ยงสินค้า</div>';
 
       html += '<div class="card-title">โอกาสสายตรวจ (ประมาณการ)</div>';
       html += '<div class="progress-wrap"><div class="progress-label"><span>Green</span><span>' + green + '%</span></div><div class="progress-track"><div class="progress-bar bar-green" style="width:' + green + '%"></div></div></div>';
