@@ -608,6 +608,263 @@ button, select { font-family: inherit; cursor: pointer; }
   font-size: 11px; color: var(--txt-secondary);
   border-top: 1px solid var(--bdr-secondary); margin-top: 1rem;
 }
+
+/* ── Pricing Panel ──────────────────────────────────── */
+.pr-hero {
+  background: linear-gradient(135deg, #0d1f3c 0%, #1a3560 60%, #1e4080 100%);
+  border-radius: var(--r-lg);
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(13,31,60,.35);
+}
+.pr-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 20%, rgba(59,130,246,.18), transparent 60%),
+              radial-gradient(ellipse at 20% 80%, rgba(16,185,129,.10), transparent 50%);
+  pointer-events: none;
+}
+.pr-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: .12em;
+  color: rgba(251,191,36,.85); text-transform: uppercase;
+  margin-bottom: .6rem;
+}
+.pr-title {
+  font-size: 26px; font-weight: 700; color: #fff;
+  letter-spacing: -.025em; margin-bottom: .5rem;
+}
+.pr-sub {
+  font-size: 13px; color: rgba(255,255,255,.65);
+  margin-bottom: 1.5rem;
+}
+.pr-pilot-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12px; font-weight: 500;
+  background: rgba(251,191,36,.15); color: #fbbf24;
+  border: 1px solid rgba(251,191,36,.3);
+  border-radius: 999px; padding: 6px 16px;
+}
+.pr-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin-bottom: 1.25rem;
+}
+.pr-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow .2s, transform .15s;
+  position: relative;
+}
+.pr-card:hover { box-shadow: 0 6px 28px rgba(15,23,42,.12); transform: translateY(-1px); }
+.pr-card.pr-featured {
+  border: 2px solid #2563eb;
+  box-shadow: 0 4px 24px rgba(29,78,216,.16);
+}
+.pr-rec-badge {
+  position: absolute; top: -1px; right: 20px;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: #fff; font-size: 10px; font-weight: 600;
+  padding: 4px 12px; border-radius: 0 0 8px 8px;
+  letter-spacing: .04em;
+}
+.pr-badge {
+  display: inline-block; font-size: 11px; font-weight: 600;
+  padding: 3px 10px; border-radius: 999px; margin-bottom: .85rem;
+}
+.pr-badge-blue { background: var(--bg-info); color: var(--txt-info); border: 1px solid var(--bdr-info); }
+.pr-badge-teal { background: #e6faf4; color: #0f7a5f; border: 1px solid #a7f3d0; }
+.pr-plan-icon {
+  width: 42px; height: 42px; border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: .85rem;
+}
+.pr-icon-blue { background: var(--bg-info); }
+.pr-icon-teal { background: #e6faf4; }
+.pr-plan-name { font-size: 18px; font-weight: 700; color: var(--txt-primary); margin-bottom: .2rem; }
+.pr-plan-target { font-size: 12px; color: var(--txt-secondary); margin-bottom: 1.1rem; line-height: 1.45; }
+.pr-price-row { display: flex; align-items: baseline; gap: 5px; margin-bottom: .2rem; }
+.pr-price-main {
+  font-size: 34px; font-weight: 700;
+  color: var(--txt-primary); letter-spacing: -.03em;
+}
+.pr-price-unit { font-size: 14px; color: var(--txt-secondary); }
+.pr-price-per { font-size: 12px; color: var(--txt-secondary); margin-bottom: 1.1rem; }
+.pr-divider { border: none; border-top: 1px solid var(--bdr-tertiary); margin: 1rem 0; }
+.pr-feat-label {
+  font-size: 10px; font-weight: 700; color: var(--txt-secondary);
+  letter-spacing: .08em; text-transform: uppercase; margin-bottom: .55rem;
+}
+.pr-feat-item {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 6px 0; font-size: 13px; color: var(--txt-primary); line-height: 1.4;
+  border-bottom: 1px solid var(--bdr-tertiary);
+}
+.pr-feat-item:last-of-type { border-bottom: none; }
+.pr-feat-icon { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
+.pr-feat-icon-blue { color: var(--txt-info); }
+.pr-feat-icon-teal { color: #0f7a5f; }
+.pr-feat-icon-dash { color: var(--txt-secondary); opacity: .55; }
+.pr-feat-sub { font-size: 11px; color: var(--txt-secondary); margin-top: 2px; }
+.pr-discount-pill {
+  display: inline-block; font-size: 10px; font-weight: 600;
+  padding: 1px 7px; border-radius: 999px;
+  background: #e6faf4; color: #0f7a5f; margin-left: 5px;
+}
+.pr-cta {
+  display: block; width: 100%; padding: 11px;
+  border-radius: var(--r-md); font-size: 13px; font-weight: 600;
+  text-align: center; cursor: pointer; margin-top: 1.4rem;
+  transition: all .15s;
+}
+.pr-cta-outline {
+  background: transparent; color: var(--txt-primary);
+  border: 1.5px solid var(--bdr-secondary);
+}
+.pr-cta-outline:hover { background: var(--bg-secondary); border-color: var(--bdr-secondary); }
+.pr-cta-primary {
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+  color: #fff; border: none;
+  box-shadow: 0 2px 10px rgba(29,78,216,.3);
+}
+.pr-cta-primary:hover { box-shadow: 0 4px 18px rgba(29,78,216,.45); transform: translateY(-1px); }
+
+/* Addon card */
+.pr-addon {
+  background: var(--bg-secondary);
+  border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-lg);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-card);
+}
+.pr-addon-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.pr-addon-name { font-size: 14px; font-weight: 700; color: var(--txt-primary); margin-bottom: 4px; }
+.pr-addon-desc { font-size: 12px; color: var(--txt-secondary); line-height: 1.55; }
+.pr-addon-amount { font-size: 22px; font-weight: 700; color: var(--txt-primary); text-align: right; }
+.pr-addon-unit { font-size: 12px; color: var(--txt-secondary); text-align: right; }
+.pr-addon-note { font-size: 11px; color: var(--txt-secondary); margin-top: 3px; text-align: right; }
+
+/* ROI Calculator */
+.pr-roi {
+  background: var(--bg-primary);
+  border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-card);
+}
+.pr-roi-title {
+  font-size: 13px; font-weight: 700; color: var(--txt-primary);
+  margin-bottom: .25rem;
+}
+.pr-roi-sub { font-size: 11px; color: var(--txt-secondary); margin-bottom: 1.25rem; }
+.pr-slider-row {
+  display: flex; align-items: center; gap: 12px; margin-bottom: .85rem;
+}
+.pr-slider-label { font-size: 12px; color: var(--txt-secondary); min-width: 140px; }
+.pr-slider-val { font-size: 13px; font-weight: 600; min-width: 80px; text-align: right; color: var(--txt-primary); }
+.pr-slider-row input[type="range"] {
+  flex: 1; accent-color: #2563eb; cursor: pointer;
+}
+.pr-roi-metrics {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1rem;
+}
+.pr-roi-met {
+  background: var(--bg-secondary); border-radius: var(--r-md);
+  padding: .85rem 1rem; border: 1px solid var(--bdr-tertiary);
+}
+.pr-roi-met-label { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--txt-secondary); margin-bottom: 5px; }
+.pr-roi-met-val { font-size: 22px; font-weight: 700; letter-spacing: -.02em; color: var(--txt-primary); }
+.pr-roi-met-sub { font-size: 11px; color: var(--txt-secondary); margin-top: 2px; }
+.pr-result-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0; border-bottom: 1px solid var(--bdr-tertiary); font-size: 12px;
+}
+.pr-result-row:last-child { border-bottom: none; }
+.pr-result-label { color: var(--txt-secondary); }
+.pr-result-val { font-weight: 700; }
+.pr-result-val-blue { color: var(--txt-info); }
+.pr-result-val-green { color: var(--txt-success); }
+.pr-result-total {
+  background: var(--bg-secondary); margin: 0 -1.5rem;
+  padding: 8px 1.5rem; border-top: 1px solid var(--bdr-secondary);
+  border-bottom: 1px solid var(--bdr-secondary);
+}
+
+/* Comparison table */
+.pr-section-lbl {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--txt-secondary); margin: 1.5rem 0 .65rem;
+}
+.pr-compare {
+  background: var(--bg-primary);
+  border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-lg); overflow: hidden;
+  box-shadow: var(--shadow-card); margin-bottom: 1.5rem;
+}
+.pr-cmp-hdr {
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  background: linear-gradient(135deg, #0d1f3c, #1a3560);
+  padding: .75rem 1.25rem;
+}
+.pr-cmp-hdr-cell {
+  font-size: 11px; font-weight: 600; color: rgba(255,255,255,.75);
+  text-align: center;
+}
+.pr-cmp-hdr-cell:first-child { text-align: left; color: rgba(255,255,255,.55); }
+.pr-cmp-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  padding: .65rem 1.25rem; border-top: 1px solid var(--bdr-tertiary);
+  align-items: center; font-size: 12px;
+}
+.pr-cmp-row:nth-child(even) { background: var(--bg-secondary); }
+.pr-cmp-feat { color: var(--txt-primary); }
+.pr-cmp-feat small { display: block; font-size: 10px; color: var(--txt-secondary); margin-top: 1px; }
+.pr-cmp-cell { text-align: center; }
+.pill-y { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: var(--bg-success); color: var(--txt-success); border: 1px solid var(--bdr-success); }
+.pill-n { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 9px; border-radius: 999px; background: var(--bg-secondary); color: var(--txt-secondary); border: 1px solid var(--bdr-secondary); }
+.pill-a { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: var(--bg-info); color: var(--txt-info); border: 1px solid var(--bdr-info); }
+
+/* FAQ strip */
+.pr-faq { margin-bottom: 1.25rem; }
+.pr-faq-item {
+  background: var(--bg-primary); border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-md); margin-bottom: 8px; overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.pr-faq-q {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: .85rem 1.25rem; cursor: pointer; font-size: 13px; font-weight: 600;
+  color: var(--txt-primary); user-select: none;
+  transition: background .15s;
+}
+.pr-faq-q:hover { background: var(--bg-secondary); }
+.pr-faq-q .pr-faq-arrow { color: var(--txt-secondary); font-size: 16px; transition: transform .2s; }
+.pr-faq-item.open .pr-faq-arrow { transform: rotate(180deg); }
+.pr-faq-a {
+  display: none; padding: 0 1.25rem 1rem;
+  font-size: 12px; color: var(--txt-secondary); line-height: 1.6;
+}
+.pr-faq-item.open .pr-faq-a { display: block; }
+
+/* Trust badges */
+.pr-trust {
+  display: flex; align-items: center; justify-content: center; gap: 24px;
+  flex-wrap: wrap; padding: 1.25rem;
+  background: var(--bg-primary); border: 1px solid var(--bdr-secondary);
+  border-radius: var(--r-lg); margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-card);
+}
+.pr-trust-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; color: var(--txt-secondary);
+}
+.pr-trust-icon { font-size: 18px; }
 </style>
 </head>
 <body>
@@ -691,6 +948,7 @@ button, select { font-family: inherit; cursor: pointer; }
     <button type="button" class="tab" onclick="switchTab('compliance',this)">Compliance &amp; FTA</button>
     <button type="button" class="tab" onclick="switchTab('history',this)">Trade History</button>
     <button type="button" class="tab" onclick="switchTab('vs',this)">TB vs TCS</button>
+    <button type="button" class="tab" onclick="switchTab('pricing',this)">💳 Pricing</button>
   </div>
 
   <!-- ── PANEL: ภาพรวม ─────────────────────────────── -->
@@ -1392,6 +1650,212 @@ button, select { font-family: inherit; cursor: pointer; }
     </div>
   </div><!-- /p-vs -->
 
+  <!-- ── PANEL: Pricing ─────────────────────────────── -->
+  <div class="panel" id="p-pricing">
+
+    <!-- Hero -->
+    <div class="pr-hero">
+      <div class="pr-eyebrow">Tradebridge Digital — Pricing</div>
+      <h2 class="pr-title">เลือกแผนที่เหมาะกับธุรกิจของคุณ</h2>
+      <p class="pr-sub">ครอบคลุมทุก workflow ตั้งแต่ pre-trade จนถึง post-clearance</p>
+      <div class="pr-pilot-pill">
+        🎁 ทดลองใช้ฟรี 30 วัน · ไม่ต้องผูกบัตร · ยกเลิกได้ทันที
+      </div>
+    </div>
+
+    <!-- Plan Cards -->
+    <div class="pr-grid">
+
+      <!-- Importer Plan -->
+      <div class="pr-card">
+        <span class="pr-badge pr-badge-blue">สำหรับผู้นำเข้า</span>
+        <div class="pr-plan-icon pr-icon-blue">
+          <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+            <rect x="3" y="3" width="14" height="14" rx="2" stroke="#1d4ed8" stroke-width="1.5"/>
+            <path d="M7 10h6M10 7v6" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pr-plan-name">Importer Plan</div>
+        <div class="pr-plan-target">ผู้นำเข้าที่ต้องการวางแผนก่อนสั่งซื้อ<br>และติดตาม shipment แบบ real-time</div>
+        <div class="pr-price-row">
+          <span class="pr-price-main">฿9,600</span>
+          <span class="pr-price-unit">/ปี</span>
+        </div>
+        <div class="pr-price-per">฿800/เดือน · จ่ายรายปี</div>
+        <hr class="pr-divider">
+        <div class="pr-feat-label">Pre-trade Intelligence</div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><div>Duty estimator ก่อนสั่งซื้อ</div><div class="pr-feat-sub">คำนวณ CIF + อากร + VAT ทุก Incoterms</div></div>
+        </div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><div>FTA scenario comparison</div><div class="pr-feat-sub">เปรียบเทียบ 14 ความตกลง ก่อนเลือก origin</div></div>
+        </div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><div>HS code lookup + OGA check</div><div class="pr-feat-sub">รู้ล่วงหน้าว่าต้องขออนุญาตอะไรบ้าง</div></div>
+        </div>
+        <hr class="pr-divider">
+        <div class="pr-feat-label">Shipment Visibility</div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><div>Status tracking แบบ real-time</div><div class="pr-feat-sub">เห็น shipment ทุกรายการโดยไม่ต้องโทรถาม broker</div></div>
+        </div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-blue" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><div>Cost dashboard ต่อ shipment</div><div class="pr-feat-sub">อากร + VAT + freight รวมต้นทุนจริงต่อใบขน</div></div>
+        </div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-dash" viewBox="0 0 16 16" fill="none"><path d="M5 8h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div><div>Pre-filing verification</div><div class="pr-feat-sub">ต้องซื้อเพิ่ม ฿200/ใบขน หรือผ่าน broker</div></div>
+        </div>
+        <button class="pr-cta pr-cta-outline" onclick="sendPrompt('อยากรู้รายละเอียด Importer Plan เพิ่มเติม')">เริ่มต้น Importer Plan →</button>
+      </div>
+
+      <!-- Broker Workspace -->
+      <div class="pr-card pr-featured">
+        <div class="pr-rec-badge">⭐ แนะนำ</div>
+        <span class="pr-badge pr-badge-teal">สำหรับตัวแทนออกของ</span>
+        <div class="pr-plan-icon pr-icon-teal">
+          <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="5" width="16" height="12" rx="2" stroke="#0f7a5f" stroke-width="1.5"/>
+            <path d="M6 5V4a2 2 0 014 0v1" stroke="#0f7a5f" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M7 11h6M7 14h4" stroke="#0f7a5f" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pr-plan-name">Broker Workspace</div>
+        <div class="pr-plan-target">ตัวแทนออกของที่ต้องการแทนที่<br>Excel + LINE + folder ด้วยระบบเดียว</div>
+        <div class="pr-price-row">
+          <span class="pr-price-main">฿20,000</span>
+          <span class="pr-price-unit">/ปี</span>
+        </div>
+        <div class="pr-price-per">฿1,667/เดือน · รวม importer portal ฟรีสำหรับลูกค้าทุกราย</div>
+        <hr class="pr-divider">
+        <div class="pr-feat-label">ครบทุกฟีเจอร์ใน Importer Plan +</div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-teal" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><div>Job management dashboard</div><div class="pr-feat-sub">รับงาน importer ไม่จำกัดราย · deadline tracker · priority queue</div></div>
+        </div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-teal" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><div>Document portal (แทน LINE/email)</div><div class="pr-feat-sub">importer upload เอกสารเข้าตรง · version control · ค้นหาได้</div></div>
+        </div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-teal" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><div>Data passthrough → Software/NSP</div><div class="pr-feat-sub">กรอกใน Tradebridge ครั้งเดียว ส่ง NSP อัตโนมัติ</div></div>
+        </div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-teal" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><div>Audit trail ครบถ้วน</div><div class="pr-feat-sub">log ทุก action · export PDF report · เก็บ ≥6 เดือนตามกฎหมาย</div></div>
+        </div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-teal" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div><div>Performance dashboard</div><div class="pr-feat-sub">Green/Red Line rate · error rate · clearance time benchmark</div></div>
+        </div>
+        <div class="pr-feat-item">
+          <svg class="pr-feat-icon pr-feat-icon-teal" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div>
+            <div>Pre-filing verification <span class="pr-discount-pill">ราคาพิเศษ</span></div>
+            <div class="pr-feat-sub">฿150/ใบขน (subscriber rate vs ฿200 walk-in)</div>
+          </div>
+        </div>
+        <button class="pr-cta pr-cta-primary" onclick="sendPrompt('อยากรู้รายละเอียด Broker Workspace เพิ่มเติม')">เริ่มต้น Broker Workspace →</button>
+      </div>
+
+    </div><!-- /.pr-grid -->
+
+    <!-- Trust Badges -->
+    <div class="pr-trust">
+      <div class="pr-trust-item"><span class="pr-trust-icon">🎁</span>ทดลองฟรี 30 วัน</div>
+      <div class="pr-trust-item"><span class="pr-trust-icon">🔒</span>ข้อมูลปลอดภัย SSL/TLS</div>
+      <div class="pr-trust-item"><span class="pr-trust-icon">🇹🇭</span>Data Center ในไทย</div>
+      <div class="pr-trust-item"><span class="pr-trust-icon">📞</span>Support ภาษาไทย</div>
+      <div class="pr-trust-item"><span class="pr-trust-icon">⚡</span>Setup ภายใน 1 วัน</div>
+    </div>
+
+    <!-- Add-on Card -->
+    <div class="pr-addon">
+      <div class="pr-addon-row">
+        <div>
+          <div class="pr-addon-name">🔍 Pre-filing Verification (Add-on)</div>
+          <div class="pr-addon-desc">ตรวจสอบความถูกต้องก่อนยื่นใบขน — HS code, OGA requirement, customs value, document completeness, Green/Red Line risk score<br>ใช้ได้ทั้ง importer และ broker · เรียกเก็บต่อใบขนที่ใช้บริการจริง</div>
+        </div>
+        <div style="flex-shrink:0;text-align:right">
+          <div class="pr-addon-amount">฿150 <span style="font-size:14px;color:var(--txt-secondary)">– ฿200</span></div>
+          <div class="pr-addon-unit">ต่อใบขน</div>
+          <div class="pr-addon-note">฿150 subscriber · ฿200 walk-in</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROI Calculator -->
+    <div class="pr-roi">
+      <div class="pr-roi-title">📊 ROI Calculator — Broker Workspace</div>
+      <div class="pr-roi-sub">ปรับ slider เพื่อดูผลตอบแทนที่คาดว่าจะได้รับจากการใช้งาน</div>
+      <div class="pr-slider-row">
+        <span class="pr-slider-label">ใบขนที่รับ/ปี</span>
+        <input type="range" min="100" max="2000" step="50" value="500" id="pr-sl-ship" oninput="prCalcROI()">
+        <span class="pr-slider-val" id="pr-out-ship">500 ใบขน</span>
+      </div>
+      <div class="pr-slider-row">
+        <span class="pr-slider-label">Error ที่ลดได้/ปี (ครั้ง)</span>
+        <input type="range" min="1" max="30" step="1" value="8" id="pr-sl-err" oninput="prCalcROI()">
+        <span class="pr-slider-val" id="pr-out-err">8 ครั้ง</span>
+      </div>
+      <div class="pr-roi-metrics" id="pr-roi-metrics"></div>
+      <div id="pr-roi-rows"></div>
+    </div>
+
+    <!-- Feature Comparison -->
+    <div class="pr-section-lbl">เปรียบเทียบฟีเจอร์ทั้งหมด</div>
+    <div class="pr-compare">
+      <div class="pr-cmp-hdr">
+        <div class="pr-cmp-hdr-cell">ฟีเจอร์</div>
+        <div class="pr-cmp-hdr-cell">Importer Plan<br><span style="font-size:10px;color:rgba(255,255,255,.5)">฿9,600/ปี</span></div>
+        <div class="pr-cmp-hdr-cell">Broker Workspace<br><span style="font-size:10px;color:rgba(255,255,255,.5)">฿20,000/ปี</span></div>
+      </div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">Duty estimator ก่อนสั่งซื้อ<small>คำนวณทุก Incoterms</small></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">FTA scenario comparison<small>14 ความตกลง</small></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">HS code + OGA lookup</div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">Shipment status tracking<small>real-time</small></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">Cost dashboard<small>ต้นทุนรวมต่อใบขน</small></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">Job management dashboard<small>รับงานหลาย importer · deadline tracker</small></div><div class="pr-cmp-cell"><span class="pill-n">ไม่มี</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">Document portal<small>แทน LINE/email/folder · version control</small></div><div class="pr-cmp-cell"><span class="pill-n">ไม่มี</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">Data passthrough → NSP<small>กรอกครั้งเดียว ส่งอัตโนมัติ</small></div><div class="pr-cmp-cell"><span class="pill-n">ไม่มี</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">Audit trail + compliance log<small>เก็บ ≥6 เดือน ตามกฎหมาย</small></div><div class="pr-cmp-cell"><span class="pill-n">ไม่มี</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">Performance dashboard<small>Green/Red Line rate · error benchmark</small></div><div class="pr-cmp-cell"><span class="pill-n">ไม่มี</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">Pre-filing verification<small>ตรวจก่อนยื่นใบขน</small></div><div class="pr-cmp-cell"><span class="pill-a">฿200/ใบขน</span></div><div class="pr-cmp-cell"><span class="pill-a">฿150/ใบขน</span></div></div>
+      <div class="pr-cmp-row"><div class="pr-cmp-feat">Importer portal ฟรีสำหรับลูกค้า<small>ลูกค้าเห็น status ได้เอง</small></div><div class="pr-cmp-cell"><span class="pill-n">ไม่มี</span></div><div class="pr-cmp-cell"><span class="pill-y">รวม</span></div></div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="pr-section-lbl">คำถามที่พบบ่อย</div>
+    <div class="pr-faq">
+      <div class="pr-faq-item" onclick="this.classList.toggle('open')">
+        <div class="pr-faq-q">ทดลองฟรี 30 วันทำงานอย่างไร? <span class="pr-faq-arrow">▾</span></div>
+        <div class="pr-faq-a">เมื่อสมัครใช้งาน คุณจะได้เข้าถึงฟีเจอร์ครบทุกอย่างในแผนที่เลือกทันทีโดยไม่ต้องผูกบัตรเครดิต หลังจาก 30 วัน หากต้องการใช้ต่อค่อยชำระเงิน ไม่มีการเรียกเก็บอัตโนมัติ</div>
+      </div>
+      <div class="pr-faq-item" onclick="this.classList.toggle('open')">
+        <div class="pr-faq-q">สามารถเปลี่ยนแผนได้หรือไม่? <span class="pr-faq-arrow">▾</span></div>
+        <div class="pr-faq-a">ได้เลย สามารถ upgrade จาก Importer Plan เป็น Broker Workspace ได้ตลอดเวลา ระบบจะคำนวณส่วนต่างตามสัดส่วนเวลาที่เหลือ ไม่มีค่าใช้จ่ายแอบซ่อน</div>
+      </div>
+      <div class="pr-faq-item" onclick="this.classList.toggle('open')">
+        <div class="pr-faq-q">Pre-filing verification คืออะไร? <span class="pr-faq-arrow">▾</span></div>
+        <div class="pr-faq-a">เป็น add-on service ที่ตรวจสอบความถูกต้องของใบขนก่อนส่งให้ระบบศุลกากร ครอบคลุม HS code validation, OGA requirement check, customs value review, document completeness และ Green/Red Line risk prediction ช่วยลดโอกาสถูก hold หรือ amendment</div>
+      </div>
+      <div class="pr-faq-item" onclick="this.classList.toggle('open')">
+        <div class="pr-faq-q">ข้อมูลของฉันปลอดภัยแค่ไหน? <span class="pr-faq-arrow">▾</span></div>
+        <div class="pr-faq-a">ข้อมูลทั้งหมดถูกเข้ารหัสด้วย AES-256 ในขณะพักและ TLS 1.3 ในขณะส่ง เซิร์ฟเวอร์ตั้งอยู่ใน Data Center ระดับ Tier-3 ในประเทศไทย ผ่านมาตรฐาน ISO 27001 และสอดคล้องกับ PDPA</div>
+      </div>
+      <div class="pr-faq-item" onclick="this.classList.toggle('open')">
+        <div class="pr-faq-q">Broker Workspace รองรับทีมกี่คน? <span class="pr-faq-arrow">▾</span></div>
+        <div class="pr-faq-a">แผน Broker Workspace รวม user ได้สูงสุด 5 accounts ภายใต้ workspace เดียว หากต้องการเพิ่มทีมสามารถ contact sales เพื่อ custom team plan ได้</div>
+      </div>
+    </div>
+
+  </div><!-- /p-pricing -->
+
 </div><!-- /.pw -->
 
 <!-- ══ Modal ════════════════════════════════════════════ -->
@@ -1468,6 +1932,42 @@ button, select { font-family: inherit; cursor: pointer; }
   };
 
   window.filterPeriod = function (v) { console.log('filter', v); };
+
+  /* ── Pricing ROI Calculator ──────────────────────── */
+  window.prCalcROI = function () {
+    var ships = parseInt(document.getElementById('pr-sl-ship').value);
+    var errs  = parseInt(document.getElementById('pr-sl-err').value);
+    document.getElementById('pr-out-ship').textContent = ships + ' ใบขน';
+    document.getElementById('pr-out-err').textContent  = errs  + ' ครั้ง';
+
+    var sub      = 20000;
+    var timeSave = ships * 1.5 * 150;
+    var errSave  = errs * 3000;
+    var capGain  = Math.round(ships * 0.05) * 2000;
+    var total    = timeSave + errSave + capGain;
+    var roi      = total / sub;
+    var fmt = function (n) { return Math.round(n).toLocaleString('th-TH'); };
+
+    document.getElementById('pr-roi-metrics').innerHTML =
+      '<div class="pr-roi-met">' +
+        '<div class="pr-roi-met-label">ค่า subscription/ปี</div>' +
+        '<div class="pr-roi-met-val">฿' + fmt(sub) + '</div>' +
+        '<div class="pr-roi-met-sub">฿' + fmt(Math.round(sub / ships)) + '/ใบขน</div>' +
+      '</div>' +
+      '<div class="pr-roi-met">' +
+        '<div class="pr-roi-met-label">ประโยชน์ที่วัดได้/ปี</div>' +
+        '<div class="pr-roi-met-val" style="color:var(--txt-success)">฿' + fmt(total) + '</div>' +
+        '<div class="pr-roi-met-sub">ROI ' + roi.toFixed(1) + 'x</div>' +
+      '</div>';
+
+    document.getElementById('pr-roi-rows').innerHTML =
+      '<div class="pr-result-row"><span class="pr-result-label">ประหยัดเวลากรอกข้อมูล (1.5 ชม./ใบขน × ฿150)</span><span class="pr-result-val pr-result-val-blue">฿' + fmt(timeSave) + '</span></div>' +
+      '<div class="pr-result-row"><span class="pr-result-label">ลดค่าปรับ/amendment (' + errs + ' ครั้ง × ฿3,000)</span><span class="pr-result-val pr-result-val-blue">฿' + fmt(errSave) + '</span></div>' +
+      '<div class="pr-result-row"><span class="pr-result-label">รับงานเพิ่ม (capacity +5%) × margin ฿2,000</span><span class="pr-result-val pr-result-val-blue">฿' + fmt(capGain) + '</span></div>' +
+      '<div class="pr-result-row pr-result-total"><span class="pr-result-label" style="font-weight:700;color:var(--txt-primary)">รวมประโยชน์</span><span class="pr-result-val pr-result-val-green">฿' + fmt(total) + '/ปี</span></div>' +
+      '<div class="pr-result-row"><span class="pr-result-label">คืนทุนใน</span><span class="pr-result-val pr-result-val-green">' + Math.ceil(12 / roi) + ' เดือน</span></div>';
+  };
+  prCalcROI();
 
   window.sendPrompt = function (text) {
     document.getElementById('modal-qtext').textContent = text;
